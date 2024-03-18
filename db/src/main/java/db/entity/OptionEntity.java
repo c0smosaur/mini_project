@@ -1,4 +1,14 @@
 package db.entity;
 
-public class OptionEntity {
+import jakarta.persistence.Entity;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+@Entity(name="option")
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class OptionEntity extends BaseEntity{
 }
