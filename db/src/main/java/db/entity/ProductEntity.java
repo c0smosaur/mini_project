@@ -1,7 +1,10 @@
 package db.entity;
 
+import db.enums.ProductCategory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -27,5 +30,9 @@ public class ProductEntity extends BaseEntity{
 
     @Column(nullable = false, length = 500)
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private ProductCategory category;
 
 }
