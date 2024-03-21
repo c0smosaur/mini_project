@@ -1,6 +1,5 @@
 package api.model.response;
 
-import db.enums.MemberStatus;
 import db.enums.MemberType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
