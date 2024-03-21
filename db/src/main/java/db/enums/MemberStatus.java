@@ -1,8 +1,10 @@
 package db.enums;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public enum MemberStatus {
 
     REGISTERED("등록"),
