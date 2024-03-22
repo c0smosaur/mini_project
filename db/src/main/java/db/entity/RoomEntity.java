@@ -7,13 +7,13 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
-@Entity(name="product_detail")
+@Entity(name="room")
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductDetailEntity extends BaseEntity {
+public class RoomEntity extends BaseEntity {
 
     @Column(nullable = false)
     private Long accommodationId;
