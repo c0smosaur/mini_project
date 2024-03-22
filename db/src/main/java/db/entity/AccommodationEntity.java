@@ -1,6 +1,6 @@
 package db.entity;
 
-import db.enums.ProductCategory;
+import db.enums.AccommodationCategory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductEntity extends BaseEntity{
+public class AccommodationEntity extends BaseEntity{
 
     @Column(nullable = false, length = 50)
     private String title;
@@ -33,6 +33,6 @@ public class ProductEntity extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private ProductCategory category;
+    private AccommodationCategory category;
 
 }

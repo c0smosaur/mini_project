@@ -1,9 +1,11 @@
 package db.enums;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
-public enum ProductCategory {
+@Getter
+public enum AccommodationCategory {
 
     B02010100("B02010100","관광호텔"),
     B02010200("B02010200","수상관광호텔"),
@@ -25,5 +27,4 @@ public enum ProductCategory {
 
     private String cat3;
     private String description;
-
 }

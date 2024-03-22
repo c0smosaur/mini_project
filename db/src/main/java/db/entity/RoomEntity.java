@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductDetailEntity extends BaseEntity {
+public class RoomEntity extends BaseEntity {
 
     @Column(nullable = false)
     private Long productId;
