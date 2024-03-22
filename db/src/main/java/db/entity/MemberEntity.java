@@ -6,7 +6,7 @@ import lombok.experimental.SuperBuilder;
 
 @Entity(name="member")
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
