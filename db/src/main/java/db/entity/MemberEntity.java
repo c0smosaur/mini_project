@@ -2,12 +2,13 @@ package db.entity;
 
 import db.enums.MemberStatus;
 import db.enums.MemberType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Entity(name="member")
 @NoArgsConstructor
@@ -15,6 +16,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
+@EntityListeners(AuditingEntityListener.class)
 public class MemberEntity extends BaseEntity{
 
     // email
@@ -36,4 +38,7 @@ public class MemberEntity extends BaseEntity{
     private MemberType type;
 
     private String profileImage;
+
+    @LastModifiedDate
+    private LocalDateTime modifiedAt;
 }
