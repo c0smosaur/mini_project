@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class ProductDetailEntity extends BaseEntity {
 
     @Column(nullable = false)
-    private Long productId;
+    private Long accommodationId;
 
     private Integer maxCapacity;
 
