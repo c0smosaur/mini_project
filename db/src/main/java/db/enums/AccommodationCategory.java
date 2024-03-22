@@ -3,7 +3,7 @@ package db.enums;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum ProductCategory {
+public enum AccommodationCategory {
 
     B02010100("B02010100","관광호텔"),
     B02010200("B02010200","수상관광호텔"),

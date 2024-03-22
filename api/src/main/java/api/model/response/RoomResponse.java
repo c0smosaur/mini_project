@@ -1,4 +1,4 @@
 package api.model.response;
 
-public class ProductResponse {
+public class RoomResponse {
 }
