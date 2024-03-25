@@ -21,9 +21,6 @@ public class AccommodationController {
 
     @GetMapping
     public ResponseEntity<ResultWrapper<List<AccommodationResponse>>> getAllAccommodations(final Pageable pageable) {
-        System.out.println(ResponseEntity
-                .status(HttpStatus.OK.value())
-                .body(ResultWrapper.OK(accommodationService.getAllAccommodations(pageable))));
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(ResultWrapper.OK(accommodationService.getAllAccommodations(pageable)));
