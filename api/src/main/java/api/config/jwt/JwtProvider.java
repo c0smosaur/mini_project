@@ -11,7 +11,6 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -30,20 +29,13 @@ public class JwtProvider {
     private Long ACCESS_TOKEN_PLUS_MINUTE;
     @Value("${token.refreshToken.plus-hour}")
     private Long REFRESH_TOKEN_PLUS_HOUR;
-    // TODO: @Value로 yml값 inject 받을 때 secret key만 null을 받아오는 문제
-//    @Value("${token.secret.key}")
-//    private String SECRET_KEY;
-    private String SECRET_KEY = "MiniProjectPracticeJWTSecretKey1234567890";
+    // TODO: PostConstruct도 고려
+    @Value("${token.secret.tokenKey}")
+    private String SECRET_KEY;
 
     private final ObjectMapper objectMapper;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    String base64EncodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
-    SecretKey key = Keys.hmacShaKeyFor(base64EncodedKey.getBytes());
-
-    JwtParser parser = Jwts.parserBuilder()
-            .setSigningKey(key)
-            .build();
 
     // 만료시간(토큰 발급 시간(현재) + n시간) 생성하는 메서드
     public Date generateTime(LocalDateTime localDateTime) {
@@ -54,6 +46,9 @@ public class JwtProvider {
 
     // Access Token 발행 메서드
     public TokenDto generateAccessToken(Map<String, Object> data) {
+        String base64EncodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
+        SecretKey key = Keys.hmacShaKeyFor(base64EncodedKey.getBytes());
+
         LocalDateTime accessExpiredAt = LocalDateTime.now().plusMinutes(ACCESS_TOKEN_PLUS_MINUTE);
         String accessToken = Jwts.builder()
                 .signWith(key)
@@ -70,6 +65,9 @@ public class JwtProvider {
     // Refresh Token 발행 메서드
     // 민감한 정보 포함 x
     public TokenDto generateRefreshToken() {
+        String base64EncodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
+        SecretKey key = Keys.hmacShaKeyFor(base64EncodedKey.getBytes());
+
         LocalDateTime refreshExpiredAt = LocalDateTime.now().plusHours(REFRESH_TOKEN_PLUS_HOUR);
         String refreshToken = Jwts.builder()
                 .signWith(key)
@@ -84,6 +82,13 @@ public class JwtProvider {
     // 토큰 검증 메서드
     // 문자열 토큰을 집어넣으면 decode 하여 map 형태로 반환
     public Map<String, Object> validateTokenAndThrow(String token) {
+        String base64EncodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
+        SecretKey key = Keys.hmacShaKeyFor(base64EncodedKey.getBytes());
+
+        JwtParser parser = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build();
+
         try {
             Jws<Claims> result = parser.parseClaimsJws(token);
             return new HashMap<String, Object>(result.getBody());
@@ -126,7 +131,7 @@ public class JwtProvider {
         Map<String, Object> userData = decodeTokenAndThrow(expiredAccessToken);
 
         // access token에 담겨있던 내용 그대로 다시 생성
-        // 담긴 내용: member_id, username, type, name
+        // 담긴 내용: username, type
         // -> 변경되지 x
         TokenDto reissuedAccessToken = generateAccessToken(userData);
         return reissuedAccessToken;

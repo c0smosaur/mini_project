@@ -23,6 +23,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -38,13 +44,44 @@ public class MemberService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenConverter refreshTokenConverter;
 
-    public MemberResponse register(MemberRegisterRequest request) {
-        // 요청에서 받은 비밀번호 암호화하여 저장
+    public void saveProfileImageLocally(byte[] profileImage,
+                                        String filename,
+                                        String format) throws IOException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(profileImage);
+        BufferedImage image = ImageIO.read(inputStream);
+        File output = new File(filename);
+        ImageIO.write(image, format, output);
+    }
+
+    public MemberResponse register(MemberRegisterRequest request){
+        // 중복 이메일 확인
         if(memberRepository.findFirstByUsernameAndStatus(
                 request.getUsername(),
                 MemberStatus.REGISTERED).isPresent()){
             throw new ResultException(MemberErrorCode.DUPLICATE_USERNAME);
         }
+
+        // TODO: 이미지 저장 클래스 따로 분리하여 작성하기
+        // 전달받은 프로필 이미지 존재 시
+        if (request.getProfileImage()!=null){
+            // 로컬 파일 주소
+            // classloader 사용?
+            String filename = "\\resources\\images\\"+request.getUsername().split("@")[0]+".png";
+            try{
+                byte[] blobData = Base64.getDecoder().decode(request.getProfileImage());
+                saveProfileImageLocally(blobData,
+                        filename,
+                        "png");
+                // 파일 경로를 DB에 저장, 파일 이름은 {username}.png
+                request.setProfileImage(filename);
+            } catch (IOException e){
+                throw new ResultException(MemberErrorCode.IMAGE_ERROR);
+            }
+        } else { // 프로필 사진이 없을 때 디폴트 사진 경로 저장
+            request.setProfileImage("\\resources\\images\\default.png");
+        }
+
+        // 요청에서 받은 비밀번호 암호화하여 저장
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         MemberEntity entity = memberConverter.toEntity(request);
         MemberEntity newEntity = memberRepository.save(entity);
@@ -78,11 +115,8 @@ public class MemberService {
 
         // token 발행 - accessToken에는 유저정보 포함
         Map<String, Object> data = new HashMap<>();
-        data.put("id", member.getId());
-        data.put("name",member.getName());
         data.put("username",member.getUsername());
         data.put("type",member.getType());
-
         TokenDto accessToken = jwtProvider.generateAccessToken(data);
 
         MemberLoginResponse response = memberConverter.toLoginResponse(
