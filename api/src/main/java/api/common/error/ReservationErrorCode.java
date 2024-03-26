@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum MemberErrorCode implements ErrorCodeMold{
+public enum ReservationErrorCode implements ErrorCodeMold{
 
-    DUPLICATE_USERNAME(400,2100, "중복 이메일 주소"),
-    IMAGE_ERROR(400,2101,"프로필 이미지 오류"),
-    USER_DOES_NOT_EXIST(400, 2102,"존재하지 않는 유저"),
+    NULL_RESERVATION(400, 2201,"빈 예약"),
+    BAD_REQUEST(400, 2202, "잘못된 요청"),
+    WRONG_DATE(400,2203,"날짜 오류"),
     ;
 
     private final Integer httpStatusCode;
