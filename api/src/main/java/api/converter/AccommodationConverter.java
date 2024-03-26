@@ -14,6 +14,9 @@ public class AccommodationConverter {
                 .image2(entity.getImage2())
                 .description(entity.getDescription())
                 .category(entity.getCategory())
+                .tel(entity.getTel())
+                .latitude(entity.getLatitude())
+                .longitude(entity.getLongitude())
                 .build();
     }
 }
