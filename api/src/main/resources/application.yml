@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: oauth
   jpa:
     show-sql: true
     properties:
@@ -7,17 +9,17 @@ spring:
   hibernate:
     ddl-auto: validate
   datasource:
-    url: jdbc:mysql://[db주소]/accommodation?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://[db 호스트]accommodation?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     driver-class-name: com.mysql.cj.jdbc.Driver
     username:
     password:
 
 token:
   secret:
-    key: MiniProjectPracticeJWTSecretKey1234567890
+    tokenKey: MiniProjectPracticeJWTSecretKey1234567890
   accessToken:
-    plus-minute: 2
-    plus-hour: 1
+    plus-minute: 120
+    plus-hour: 2
   refreshToken:
-    plus-hour: 6
+    plus-hour: 24
 
