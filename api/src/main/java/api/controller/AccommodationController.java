@@ -3,11 +3,13 @@ package api.controller;
 import api.common.result.ResultWrapper;
 import api.model.response.AccommodationResponse;
 import api.service.AccommodationService;
+import db.enums.AccommodationCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +26,15 @@ public class AccommodationController {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(ResultWrapper.OK(accommodationService.getAllAccommodations(pageable)));
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<ResultWrapper<List<AccommodationResponse>>> getAccommodationsByCategory(
+            @PathVariable AccommodationCategory category,
+            final Pageable pageable
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(accommodationService.getAccommodationsByCategory(category, pageable)));
     }
 }
