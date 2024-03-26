@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum MemberErrorCode implements ErrorCodeMold{
 
     DUPLICATE_USERNAME(400,2100, "중복 이메일 주소"),
+    IMAGE_ERROR(400,2101,"프로필 이미지 오류"),
     ;
 
     private final Integer httpStatusCode;
