@@ -1,6 +1,7 @@
 package api.controller;
 
 import api.common.result.ResultWrapper;
+import api.model.response.AccommodationDetailResponse;
 import api.model.response.AccommodationResponse;
 import api.service.AccommodationService;
 import db.enums.AccommodationCategory;
@@ -21,6 +22,7 @@ import java.util.List;
 public class AccommodationController {
     private final AccommodationService accommodationService;
 
+    // 숙소 전체 조회
     @GetMapping
     public ResponseEntity<ResultWrapper<List<AccommodationResponse>>> getAllAccommodations(final Pageable pageable) {
         return ResponseEntity
@@ -28,6 +30,7 @@ public class AccommodationController {
                 .body(ResultWrapper.OK(accommodationService.getAllAccommodations(pageable)));
     }
 
+    // 숙소 카테고리별 조회
     @GetMapping("/category/{category}")
     public ResponseEntity<ResultWrapper<List<AccommodationResponse>>> getAccommodationsByCategory(
             @PathVariable AccommodationCategory category,
@@ -36,5 +39,15 @@ public class AccommodationController {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(ResultWrapper.OK(accommodationService.getAccommodationsByCategory(category, pageable)));
+    }
+
+    // 숙소 개별 조회 (상세 조회)
+    @GetMapping("/{accommodationId}")
+    public ResponseEntity<ResultWrapper<AccommodationDetailResponse>> getAccommodationById(
+            @PathVariable Long accommodationId
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(accommodationService.getAccommodationById(accommodationId)));
     }
 }

@@ -9,6 +9,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class AccommodationResponse {
+    private Long id;
     private String title;
     private String address;
     private String image1;
