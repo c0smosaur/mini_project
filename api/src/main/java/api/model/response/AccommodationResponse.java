@@ -15,4 +15,7 @@ public class AccommodationResponse {
     private String image2;
     private String description;
     private AccommodationCategory category;
+    private String tel;
+    private Double latitude;
+    private Double longitude;
 }
