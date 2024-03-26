@@ -22,6 +22,7 @@ public class ObjectMapperConfig {
 
         // JSON에는 SnakeCase 디폴트로 적용
         objectMapper.setPropertyNamingStrategy(new PropertyNamingStrategies.SnakeCaseStrategy());
+
         // 비어있는 값을 생성 가능하게 적용
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
