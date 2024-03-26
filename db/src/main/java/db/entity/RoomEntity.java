@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import java.math.BigDecimal;
 
 @Entity(name="room")
+
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder

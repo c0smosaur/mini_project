@@ -5,19 +5,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity(name = "accommodation")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@EqualsAndHashCode
-public class AccommodationEntity extends BaseEntity {
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class AccommodationEntity extends BaseEntity{
 
     @Column(nullable = false, length = 50)
     private String title;
@@ -44,4 +42,5 @@ public class AccommodationEntity extends BaseEntity {
     private Double latitude;
 
     private Double longitude;
+
 }
