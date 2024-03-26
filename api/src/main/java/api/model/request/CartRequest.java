@@ -1,14 +1,12 @@
 package api.model.request;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter
-@Builder
-@ToString
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CartRequest {
     private Long roomId;
     private Integer capacity;
