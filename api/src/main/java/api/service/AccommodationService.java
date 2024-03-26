@@ -2,6 +2,7 @@ package api.service;
 
 import api.converter.AccommodationConverter;
 import api.model.response.AccommodationResponse;
+import db.enums.AccommodationCategory;
 import db.repository.AccommodationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,13 @@ public class AccommodationService {
     @Transactional(readOnly = true)
     public List<AccommodationResponse> getAllAccommodations(Pageable pageable) {
         Page<AccommodationResponse> page = accommodationRepository.findAll(pageable)
+                .map(accommodationConverter::toResponse);
+        return page.getContent();
+    }
+
+    @Transactional(readOnly = true)
+    public List<AccommodationResponse> getAccommodationsByCategory(AccommodationCategory category, Pageable pageable) {
+        Page<AccommodationResponse> page = accommodationRepository.findByCategory(category, pageable)
                 .map(accommodationConverter::toResponse);
         return page.getContent();
     }
