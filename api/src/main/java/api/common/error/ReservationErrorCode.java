@@ -14,6 +14,6 @@ public enum ReservationErrorCode implements ErrorCodeMold{
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
-    private String description;
+    private final String description;
 
 }

@@ -54,7 +54,7 @@ public class ReservationService {
         // 예약 날짜 유효성 확인
         if (!validateStartAndEndDate(request)){
             throw new ResultException(ReservationErrorCode.WRONG_DATE);
-        };
+        }
 
         // member id 넣어주기
         request.setMemberId(memberEntity.getId());
