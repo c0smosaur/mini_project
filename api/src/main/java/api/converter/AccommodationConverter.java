@@ -8,6 +8,7 @@ import db.entity.AccommodationEntity;
 public class AccommodationConverter {
     public AccommodationResponse toResponse(AccommodationEntity entity) {
         return AccommodationResponse.builder()
+                .id(entity.getId())
                 .title(entity.getTitle())
                 .address(entity.getAddress())
                 .image1(entity.getImage1())
