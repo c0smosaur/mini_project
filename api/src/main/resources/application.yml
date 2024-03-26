@@ -9,10 +9,10 @@ spring:
   hibernate:
     ddl-auto: validate
   datasource:
-    url: jdbc:mysql://[db 호스트]accommodation?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://project-mini.cfag6omiojwb.ap-northeast-2.rds.amazonaws.com:3306/accommodation?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username:
-    password:
+    username: admin
+    password: mini12345
 
 token:
   secret:
