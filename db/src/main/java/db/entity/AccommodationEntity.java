@@ -5,10 +5,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Entity(name = "product")
+@Entity(name = "accommodation")
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -34,5 +35,12 @@ public class AccommodationEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
     private AccommodationCategory category;
+
+    @Column(length = 50)
+    private String tel;
+
+    private Double latitude;
+
+    private Double longitude;
 
 }
