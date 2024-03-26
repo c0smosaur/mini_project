@@ -10,8 +10,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity(name="cart")
 @NoArgsConstructor
@@ -39,4 +41,8 @@ public class CartEntity extends BaseEntity {
 
     @Column(nullable = false)
     private Integer totalPrice;
+
+    @Column(updatable = false)
+    @CreatedDate
+    private LocalDateTime modifiedAt;
 }
