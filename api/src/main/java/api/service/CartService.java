@@ -5,11 +5,8 @@ import api.converter.CartConverter;
 import api.model.request.CartRequest;
 import api.model.response.CartResponse;
 import db.entity.CartEntity;
-
 import db.repository.CartRepository;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +17,6 @@ import java.util.List;
 public class CartService {
     private final CartRepository cartRepository;
     private final CartConverter cartConverter;
-
     private final MemberUtil memberUtil;
 
     // 장바구니 보기

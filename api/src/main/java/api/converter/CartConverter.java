@@ -20,6 +20,7 @@ public class CartConverter {
                 .map(it -> {
                     return CartResponse.builder()
                             .id(it.getMemberId())
+                            .memberId(it.getMemberId())
                             .roomId(it.getRoomId())
                             .capacity(it.getCapacity())
                             .startDate(it.getStartDate())
