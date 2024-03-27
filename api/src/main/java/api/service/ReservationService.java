@@ -1,6 +1,5 @@
 package api.service;
 
-import api.common.error.MemberErrorCode;
 import api.common.error.ReservationErrorCode;
 import api.common.exception.ResultException;
 import api.common.util.MemberUtil;
@@ -9,8 +8,6 @@ import api.model.request.ReservationRequest;
 import api.model.response.ReservationResponse;
 import db.entity.MemberEntity;
 import db.entity.ReservationEntity;
-import db.enums.MemberStatus;
-import db.repository.MemberRepository;
 import db.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -46,7 +43,6 @@ public class ReservationService {
     // 예약 추가
     public ReservationResponse addReservation(ReservationRequest request) {
         // 현재 유저 식별번호 받아옴
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MemberEntity memberEntity = memberUtil.getCurrentMember();
 
         // 예약 날짜 유효성 확인
@@ -81,7 +77,6 @@ public class ReservationService {
 
     // 사용자의 예약 전체 조회
     public List<ReservationResponse> getUserReservationAll(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MemberEntity memberEntity = memberUtil.getCurrentMember();
 
         List<ReservationEntity> list = reservationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberEntity.getId());
