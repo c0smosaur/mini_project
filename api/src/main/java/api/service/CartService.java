@@ -1,19 +1,15 @@
 package api.service;
 
-import api.common.error.MemberErrorCode;
-import api.common.exception.ResultException;
+import api.common.util.MemberUtil;
 import api.converter.CartConverter;
 import api.model.request.CartRequest;
 import api.model.response.CartResponse;
 import db.entity.CartEntity;
-import db.entity.MemberEntity;
-import db.enums.MemberStatus;
+
 import db.repository.CartRepository;
 
-import db.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,17 +21,12 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartConverter cartConverter;
 
-    private final MemberRepository memberRepository;
+    private final MemberUtil memberUtil;
+
     // 장바구니 보기
     @Transactional(readOnly = true)
     public List<CartResponse> getAllCartsByMemberId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        MemberEntity memberEntity = memberRepository.findFirstByUsernameAndStatus(
-                authentication.getName(),
-                MemberStatus.REGISTERED
-        ).orElseThrow(() -> new ResultException(MemberErrorCode.USER_DOES_NOT_EXIST));
-
-        return cartRepository.findAllByMemberId(memberEntity.getId())
+        return cartRepository.findAllByMemberId(memberUtil.getCurrentMember().getId())
                 .stream()
                 .map(cartConverter::toResponse)
                 .toList();
@@ -43,13 +34,7 @@ public class CartService {
 
     // 장바구니 담기
     public void addCart(CartRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        MemberEntity memberEntity = memberRepository.findFirstByUsernameAndStatus(
-                authentication.getName(),
-                MemberStatus.REGISTERED
-        ).orElseThrow(() -> new ResultException(MemberErrorCode.USER_DOES_NOT_EXIST));
-
-        CartEntity entity = cartConverter.toEntity(request, memberEntity.getId());
+        CartEntity entity = cartConverter.toEntity(request, memberUtil.getCurrentMember().getId());
 
         cartRepository.save(entity);
     }
