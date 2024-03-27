@@ -10,8 +10,6 @@ import db.entity.MemberEntity;
 import db.entity.ReservationEntity;
 import db.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
