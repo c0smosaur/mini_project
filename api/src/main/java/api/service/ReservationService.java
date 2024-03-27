@@ -3,6 +3,7 @@ package api.service;
 import api.common.error.MemberErrorCode;
 import api.common.error.ReservationErrorCode;
 import api.common.exception.ResultException;
+import api.common.util.MemberUtil;
 import api.converter.ReservationConverter;
 import api.model.request.ReservationRequest;
 import api.model.response.ReservationResponse;
@@ -25,7 +26,7 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final ReservationConverter reservationConverter;
-    private final MemberRepository memberRepository;
+    private final MemberUtil memberUtil;
 
     // 날짜 유효성 검증
     public boolean validateStartAndEndDate(ReservationRequest request){
@@ -46,10 +47,7 @@ public class ReservationService {
     public ReservationResponse addReservation(ReservationRequest request) {
         // 현재 유저 식별번호 받아옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        MemberEntity memberEntity = memberRepository.findFirstByUsernameAndStatus(
-                authentication.getName(),
-                MemberStatus.REGISTERED
-        ).orElseThrow(() -> new ResultException(MemberErrorCode.USER_DOES_NOT_EXIST));
+        MemberEntity memberEntity = memberUtil.getCurrentMember();
 
         // 예약 날짜 유효성 확인
         if (!validateStartAndEndDate(request)){
@@ -84,10 +82,7 @@ public class ReservationService {
     // 사용자의 예약 전체 조회
     public List<ReservationResponse> getUserReservationAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        MemberEntity memberEntity = memberRepository.findFirstByUsernameAndStatus(
-                authentication.getName(),
-                MemberStatus.REGISTERED
-        ).orElseThrow(() -> new ResultException(MemberErrorCode.USER_DOES_NOT_EXIST));
+        MemberEntity memberEntity = memberUtil.getCurrentMember();
 
         List<ReservationEntity> list = reservationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberEntity.getId());
         List<ReservationResponse> responseList = list.stream()
