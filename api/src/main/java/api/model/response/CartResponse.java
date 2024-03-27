@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @ToString
 public class CartResponse {
     private Long id;
+    private Long memberId;
     private Long roomId;
     private Integer capacity;
     private LocalDate startDate;
