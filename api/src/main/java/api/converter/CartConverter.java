@@ -31,12 +31,11 @@ public class CartConverter {
     }
 
     // 장바구니 객체로 변환
-    // TODO : memberId 수정
-    public CartEntity toEntity(CartRequest request) {
+    public CartEntity toEntity(CartRequest request, Long memberId) {
         return Optional.ofNullable(request)
                 .map(it -> {
                     return CartEntity.builder()
-                            .memberId(it.getRoomId())
+                            .memberId(memberId)
                             .roomId(it.getRoomId())
                             .capacity(it.getCapacity())
                             .startDate(it.getStartDate())

@@ -1,16 +1,14 @@
 package db.entity;
 
 import db.enums.CartStatus;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,6 +19,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
+@EntityListeners(AuditingEntityListener.class)
 public class CartEntity extends BaseEntity {
     @Column(nullable = false)
     private Long memberId;
@@ -43,6 +42,6 @@ public class CartEntity extends BaseEntity {
     private Integer totalPrice;
 
     @Column(updatable = false)
-    @CreatedDate
+    @LastModifiedDate
     private LocalDateTime modifiedAt;
 }

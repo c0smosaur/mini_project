@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity(name="member")
 @NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
