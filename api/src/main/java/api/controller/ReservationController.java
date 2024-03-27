@@ -1,11 +1,13 @@
 package api.controller;
 
 import api.common.result.ResultWrapper;
-import api.model.request.ReservationRequest;
 import api.model.response.ReservationResponse;
 import api.service.ReservationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -15,14 +17,6 @@ import java.util.List;
 public class ReservationController {
 
     private final ReservationService reservationService;
-
-    // 결제 후 reservation 저장
-    @PostMapping("/payments")
-    public ResultWrapper<ReservationResponse> addReservation(
-            @RequestBody ReservationRequest request) {
-        ReservationResponse response = reservationService.addReservation(request);
-        return ResultWrapper.OK(response);
-    }
 
     // 특정 방의 예약 조회
     @GetMapping("/room/{room-id}")
