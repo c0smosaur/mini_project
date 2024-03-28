@@ -1,12 +1,10 @@
 package api.service;
 
 import api.common.error.CartErrorCode;
-import api.common.error.ReservationErrorCode;
 import api.common.exception.ResultException;
 import api.common.util.MemberUtil;
 import api.converter.CartConverter;
 import api.model.request.CartRequest;
-import api.model.request.ReservationRequest;
 import api.model.response.CartResponse;
 import db.entity.CartEntity;
 import db.entity.RoomEntity;

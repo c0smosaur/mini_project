@@ -31,8 +31,6 @@ public class PaymentService {
     private final RoomRepository roomRepository;
     private final MemberUtil memberUtil;
 
-    private final Integer DEFAULT_ROOM_STOCK = 1;
-
     // CartResponse로 돌려줄 필요 x
     public void getCartAndChangeStatusToN(Long cartId){
         Optional<CartEntity> cartEntity = cartRepository.findFirstById(cartId);
@@ -70,7 +68,8 @@ public class PaymentService {
 
     // 방 재고 차감
     public void modifyRoomStock(RoomEntity roomEntity){
-        if (Objects.equals(roomEntity.getStock(), DEFAULT_ROOM_STOCK)){
+        Integer defaultRoomStock = 1;
+        if (Objects.equals(roomEntity.getStock(), defaultRoomStock)){
             roomEntity.setStock(roomEntity.getStock()-1);
             roomRepository.save(roomEntity);
         }
