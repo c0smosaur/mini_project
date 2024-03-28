@@ -9,13 +9,16 @@ import api.model.response.ReservationResponse;
 import db.entity.CartEntity;
 import db.entity.MemberEntity;
 import db.entity.ReservationEntity;
+import db.entity.RoomEntity;
 import db.enums.CartStatus;
 import db.repository.CartRepository;
 import db.repository.ReservationRepository;
+import db.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -25,7 +28,10 @@ public class PaymentService {
     private final CartRepository cartRepository;
     private final ReservationRepository reservationRepository;
     private final ReservationConverter reservationConverter;
+    private final RoomRepository roomRepository;
     private final MemberUtil memberUtil;
+
+    private final Integer DEFAULT_ROOM_STOCK = 1;
 
     // CartResponse로 돌려줄 필요 x
     public void getCartAndChangeStatusToN(Long cartId){
@@ -37,33 +43,62 @@ public class PaymentService {
     }
 
     // 날짜 유효성 검증
-    public boolean validateStartAndEndDate(ReservationRequest request){
-        LocalDate startDate = request.getStartDate();
-        LocalDate endDate = request.getEndDate();
-
+    public void validateStartAndEndDate(LocalDate startDate,
+                                           LocalDate endDate){
         // startDate가 endDate보다 전 (O)
         if (startDate.isBefore(endDate)){
             LocalDate currentDate = LocalDate.now();
-            // 오늘 날짜가 startDate보다 전이거나 같음
-            return currentDate.isBefore(startDate) || currentDate.isEqual(startDate);
+            // 오늘 날짜가 startDate보다 뒤 (X)
+            if(currentDate.isAfter(startDate)){
+                throw new ResultException(ReservationErrorCode.WRONG_DATE);
+            }
         }
         // startDate가 endDate보다 나중 (X)
-        return false;
+        else throw new ResultException(ReservationErrorCode.WRONG_DATE);
+    }
+
+    // 방 있는지 / stock이 1인지 확인 후 stock 차감
+    public void validateAndModifyRoomEntity(ReservationRequest request) {
+        Optional<RoomEntity> roomEntity = roomRepository.findFirstById(request.getRoomId());
+        if (roomEntity.isPresent()) {
+            RoomEntity entity = roomEntity.get();
+
+            validateRoomCapacity(request.getCapacity(), entity);
+            modifyRoomStock(entity);
+        } else throw new ResultException(ReservationErrorCode.NONEXISTENT_DATA);
+    }
+
+    // 방 재고 차감
+    public void modifyRoomStock(RoomEntity roomEntity){
+        if (Objects.equals(roomEntity.getStock(), DEFAULT_ROOM_STOCK)){
+            roomEntity.setStock(roomEntity.getStock()-1);
+            roomRepository.save(roomEntity);
+        }
+        else throw new ResultException(ReservationErrorCode.ROOM_UNAVAILABLE);
+    }
+
+    // 입력된 인원 수 검증
+    public void validateRoomCapacity(Integer capacity, RoomEntity roomEntity){
+        if (capacity > 0) {
+            if(capacity > roomEntity.getMaxCapacity()){
+                throw new ResultException(ReservationErrorCode.CAPACITY_REACHED);
+            }
+        } else throw new ResultException(ReservationErrorCode.UNACCEPTABLE_INPUT);
     }
 
     // 예약 추가
     public ReservationResponse addReservation(ReservationRequest request) {
-        // 현재 유저 식별번호 받아옴
+        // 1. 현재 유저 식별번호 받아옴
+        // member id 입력
         MemberEntity memberEntity = memberUtil.getCurrentMember();
-
-        // 예약 날짜 유효성 확인
-        if (!validateStartAndEndDate(request)){
-            throw new ResultException(ReservationErrorCode.WRONG_DATE);
-        }
-
-        // member id 넣어주기
         request.setMemberId(memberEntity.getId());
 
+        // 2. 예약 날짜 유효성 확인
+        // 3. room 재고 수 차감
+        validateStartAndEndDate(request.getStartDate(), request.getEndDate());
+        validateAndModifyRoomEntity(request);
+
+        // reservation 저장
         ReservationEntity entity = reservationConverter.toEntity(request);
         ReservationEntity newEntity = reservationRepository.save(entity);
         ReservationResponse response = reservationConverter.toResponse(newEntity);
