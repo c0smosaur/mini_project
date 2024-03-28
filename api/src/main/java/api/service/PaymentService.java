@@ -28,7 +28,7 @@ public class PaymentService {
     private final MemberUtil memberUtil;
 
     // CartResponse로 돌려줄 필요 x
-    public void getCartAndChangeStatus(Long cartId){
+    public void getCartAndChangeStatusToN(Long cartId){
         Optional<CartEntity> cartEntity = cartRepository.findFirstById(cartId);
         if (cartEntity.isPresent()){
             cartEntity.get().setStatus(CartStatus.N);
