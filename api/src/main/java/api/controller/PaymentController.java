@@ -31,7 +31,7 @@ public class PaymentController {
     @PostMapping("/cart-reservation")
     public ResponseEntity<ResultWrapper<Void>> modifyCartAndAddReservation(
             @RequestBody CartReservationRequest request) {
-        paymentService.getCartAndChangeStatus(request.getCartId());
+        paymentService.getCartAndChangeStatusToN(request.getCartId());
         paymentService.addReservation(request.getReservation());
 
         return ResponseEntity

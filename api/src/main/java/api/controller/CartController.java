@@ -4,6 +4,7 @@ import api.common.result.ResultWrapper;
 import api.model.request.CartRequest;
 import api.model.response.CartResponse;
 import api.service.CartService;
+import db.enums.CartStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,15 @@ public class CartController {
     public ResponseEntity<ResultWrapper<Void>> addCart(@RequestBody CartRequest request) {
         cartService.addCart(request);
 
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(null));
+    }
+
+    @DeleteMapping("/{cart-id}")
+    public ResponseEntity<ResultWrapper<Void>> deleteCart(
+            @PathVariable(name = "cart-id") Long cartId){
+        cartService.getCartAndChangeStatus(cartId, CartStatus.N);
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(ResultWrapper.OK(null));
