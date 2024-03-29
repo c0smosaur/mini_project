@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class ReservationResponseWithPrice {
     private Long id;
     private Long roomId;
+    private Integer maxCapacity;
     private Integer capacity;
     private LocalDate startDate;
     private LocalDate endDate;

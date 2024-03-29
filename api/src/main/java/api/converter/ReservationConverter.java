@@ -40,14 +40,14 @@ public class ReservationConverter {
                         .totalPrice(it.getTotalPrice())
                         .build()).orElseThrow(() -> new ResultException(ReservationErrorCode.BAD_REQUEST));
     }
-
-    // TODO
+    
     public AccommodationReservationResponse toResponse(AccommodationResponse accommodation,
                                                        ReservationEntity reservationEntity,
                                                        RoomEntity roomEntity){
         ReservationResponseWithPrice reservation = ReservationResponseWithPrice.builder()
                 .id(reservationEntity.getId())
                 .roomId(reservationEntity.getRoomId())
+                .maxCapacity(roomEntity.getMaxCapacity())
                 .capacity(reservationEntity.getCapacity())
                 .startDate(reservationEntity.getStartDate())
                 .endDate(reservationEntity.getEndDate())
