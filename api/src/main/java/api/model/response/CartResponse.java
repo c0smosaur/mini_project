@@ -16,5 +16,5 @@ public class CartResponse {
     private Integer capacity;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Integer totalPrice;
+    private Long totalPrice;
 }

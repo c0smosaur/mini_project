@@ -12,6 +12,6 @@ import java.math.BigDecimal;
 public class RoomResponse {
     private Long id;
     private Integer maxCapacity;
-    private BigDecimal price;
+    private Long price;
     private Integer stock;
 }

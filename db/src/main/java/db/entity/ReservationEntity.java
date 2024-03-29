@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity(name="reservation")
@@ -35,5 +34,5 @@ public class ReservationEntity extends BaseEntity{
     private LocalDate endDate;
 
     @Column(nullable = false)
-    private BigDecimal totalPrice;
+    private Long totalPrice;
 }
