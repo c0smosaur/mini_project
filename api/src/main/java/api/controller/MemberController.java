@@ -1,20 +1,18 @@
 package api.controller;
 
 import api.common.result.ResultWrapper;
-import api.config.jwt.JwtProvider;
 import api.model.request.MemberLoginRequest;
 import api.model.request.MemberRegisterRequest;
 import api.model.response.MemberLoginResponse;
 import api.model.response.MemberResponse;
 import api.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
-public class MemberApiController {
+public class MemberController {
 
     private final MemberService memberService;
 
