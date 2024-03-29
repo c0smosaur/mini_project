@@ -22,7 +22,7 @@ public class RoomEntity extends BaseEntity {
     private Integer maxCapacity;
 
     @Column(precision = 11, scale = 4)
-    private BigDecimal price;
+    private Long price;
 
     private Integer stock;
 

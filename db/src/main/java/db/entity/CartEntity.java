@@ -39,7 +39,7 @@ public class CartEntity extends BaseEntity {
     private CartStatus status;
 
     @Column(nullable = false)
-    private Integer totalPrice;
+    private Long totalPrice;
 
     @Column(updatable = false)
     @LastModifiedDate
