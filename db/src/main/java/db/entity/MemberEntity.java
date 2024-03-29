@@ -2,6 +2,7 @@ package db.entity;
 
 import db.enums.MemberStatus;
 import db.enums.MemberType;
+import db.enums.OAuthProvider;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -23,7 +24,7 @@ public class MemberEntity extends BaseEntity{
     @Column(nullable = false, length = 50)
     private String username;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true, length = 100)
     private String password;
 
     @Column(nullable = false, length = 50)
@@ -41,4 +42,11 @@ public class MemberEntity extends BaseEntity{
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
+    @Column(nullable = true, length = 50)
+    @Enumerated(value = EnumType.STRING)
+    private OAuthProvider oAuthProvider;
+
+    @Column(nullable = true, length = 255)
+    private String oAuthId;
 }

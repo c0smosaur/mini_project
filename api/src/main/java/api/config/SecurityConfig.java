@@ -1,6 +1,7 @@
 package api.config;
 
 import api.config.auth.JwtAuthenticationFilter;
+import api.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -32,7 +34,13 @@ public class SecurityConfig {
                 // csrf 토큰 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
                 // form login 비활성화
-                .formLogin(AbstractHttpConfigurer::disable)
+//                .formLogin(AbstractHttpConfigurer::disable)
+                .oauth2Login((oauth2) -> oauth2
+                        .loginPage("/api/oauth/")
+                        .defaultSuccessUrl("/api/accommodations")
+                        .failureUrl("/open-api/member/register")
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .userService(customOAuth2UserService)))
                 .authorizeHttpRequests(
                         it -> it
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
