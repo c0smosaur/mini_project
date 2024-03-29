@@ -27,6 +27,7 @@ public class CartEntity extends BaseEntity {
     @Column(nullable = false)
     private Long roomId;
 
+    @Column(nullable = false)
     private Integer capacity;
 
     @Column(nullable = false)
