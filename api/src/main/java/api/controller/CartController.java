@@ -2,7 +2,7 @@ package api.controller;
 
 import api.common.result.ResultWrapper;
 import api.model.request.CartRequest;
-import api.model.response.CartResponse;
+import api.model.response.AccommodationCartResponse;
 import api.service.CartService;
 import db.enums.CartStatus;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class CartController {
 
     // 장바구니 보기
     @GetMapping
-    public ResponseEntity<ResultWrapper<List<CartResponse>>> getAllCartsByMemberId() {
+    public ResponseEntity<ResultWrapper<List<AccommodationCartResponse>>> getAllCartsByMemberId() {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(ResultWrapper.OK(cartService.getAllCartsByMemberId()));
@@ -36,6 +36,7 @@ public class CartController {
                 .body(ResultWrapper.OK(null));
     }
 
+    // 장바구니 삭제
     @DeleteMapping("/{cart-id}")
     public ResponseEntity<ResultWrapper<Void>> deleteCart(
             @PathVariable(name = "cart-id") Long cartId){
