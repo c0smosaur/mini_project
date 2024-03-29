@@ -58,8 +58,6 @@ public class ReservationService {
         MemberEntity memberEntity = memberUtil.getCurrentMember();
 
         List<ReservationEntity> list = reservationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberEntity.getId());
-//        List<ReservationResponse> responseList = list.stream()
-//                .map(reservationConverter::toResponse).toList();
 
         return list.stream()
                 .map(reservationEntity -> {
