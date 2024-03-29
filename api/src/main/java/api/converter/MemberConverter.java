@@ -40,6 +40,7 @@ public class MemberConverter {
                     return MemberLoginResponse.builder()
                             .memberId(it.getId())
                             .username(it.getUsername())
+                            .name(it.getName())
                             .type(it.getType())
                             .accessToken(accessToken)
                             .refreshToken(refreshToken)
