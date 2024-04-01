@@ -1,6 +1,7 @@
 package api.converter;
 
 import api.common.annotation.Converter;
+import api.common.error.GeneralErrorCode;
 import api.common.error.ReservationErrorCode;
 import api.common.exception.ResultException;
 import api.model.request.ReservationRequest;
@@ -22,7 +23,7 @@ public class ReservationConverter {
                         .endDate(it.getEndDate())
                         .totalPrice(it.getTotalPrice())
                         .build())
-                .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
+                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
     }
 
     public ReservationEntity toEntity(ReservationRequest request) {
@@ -34,7 +35,7 @@ public class ReservationConverter {
                         .startDate(it.getStartDate())
                         .endDate(it.getEndDate())
                         .totalPrice(it.getTotalPrice())
-                        .build()).orElseThrow(() -> new ResultException(ReservationErrorCode.BAD_REQUEST));
+                        .build()).orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
     }
 
 }

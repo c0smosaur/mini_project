@@ -25,8 +25,7 @@ public class ReservationService {
     // 숙소 객실별 예약 조회
     public List<ReservationResponse> getAllReservationForRoom(Long roomId){
         List<ReservationEntity> list = reservationRepository.findAllByRoomIdOrderByCreatedAtDesc(roomId);
-        List<ReservationResponse> responseList = list.stream().map(reservationConverter::toResponse).toList();
-        return responseList;
+        return list.stream().map(reservationConverter::toResponse).toList();
     }
 
     // 단일 예약 조회
@@ -34,8 +33,7 @@ public class ReservationService {
         ReservationEntity entity = reservationRepository.findFirstById(reservationId)
                 .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
 
-        ReservationResponse response = reservationConverter.toResponse(entity);
-        return response;
+        return reservationConverter.toResponse(entity);
     }
 
     // 사용자의 예약 전체 조회
@@ -43,9 +41,8 @@ public class ReservationService {
         MemberEntity memberEntity = memberUtil.getCurrentMember();
 
         List<ReservationEntity> list = reservationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberEntity.getId());
-        List<ReservationResponse> responseList = list.stream()
-                .map(reservationConverter::toResponse).toList();
 
-        return responseList;
+        return list.stream()
+                .map(reservationConverter::toResponse).toList();
     }
 }

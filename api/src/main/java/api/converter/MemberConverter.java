@@ -26,7 +26,7 @@ public class MemberConverter {
                         .type(MemberType.USER)
                         .profileImage(it.getProfileImage())
                         .build())
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NULL_POINT));
+                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
     }
 
     // 로그인 반환값 (유저 정보와 토큰 2개)
@@ -42,7 +42,7 @@ public class MemberConverter {
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build())
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NULL_POINT));
+                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
     }
 
     // 유저 정보 조회 시 반환
@@ -55,6 +55,6 @@ public class MemberConverter {
                         .type(it.getType())
                         .profileImage(it.getProfileImage())
                         .build())
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NULL_POINT));
+                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
     }
 }
