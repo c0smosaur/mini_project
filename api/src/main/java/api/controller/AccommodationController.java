@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,24 +19,23 @@ import java.util.List;
 public class AccommodationController {
     private final AccommodationService accommodationService;
 
-    // 숙소 전체 조회
-    @GetMapping
-    public ResponseEntity<ResultWrapper<List<AccommodationResponse>>> getAllAccommodations(final Pageable pageable) {
-        return ResponseEntity
-                .status(HttpStatus.OK.value())
-                .body(ResultWrapper.OK(accommodationService.getAllAccommodations(pageable)));
-    }
-
     // 숙소 카테고리별 조회
-    @GetMapping("/category/{category}")
+    @GetMapping()
     public ResponseEntity<ResultWrapper<List<AccommodationResponse>>> getAccommodationsByCategory(
-            @PathVariable AccommodationCategory category,
+            @RequestParam(required = false) AccommodationCategory category,
             final Pageable pageable
     ) {
-        return ResponseEntity
-                .status(HttpStatus.OK.value())
-                .body(ResultWrapper.OK(accommodationService.getAccommodationsByCategory(category, pageable)));
+        if (category == null) {
+            return ResponseEntity
+                    .status(HttpStatus.OK.value())
+                    .body(ResultWrapper.OK(accommodationService.getAllAccommodations(pageable)));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK.value())
+                    .body(ResultWrapper.OK(accommodationService.getAccommodationsByCategory(category, pageable)));
+        }
     }
+
 
     // 숙소 개별 조회 (상세 조회)
     @GetMapping("/{accommodationId}")
