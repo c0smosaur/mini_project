@@ -1,6 +1,7 @@
 package api.service;
 
 import api.common.error.CartErrorCode;
+import api.common.error.GeneralErrorCode;
 import api.common.error.ReservationErrorCode;
 import api.common.exception.ResultException;
 import api.common.util.MemberUtil;
@@ -37,16 +38,18 @@ public class CartService {
 
     // 장바구니 보기
     @Transactional(readOnly = true)
-    public List<AccommodationCartResponse> getAllCartsByMemberId(){
+    public List<AccommodationCartResponse> getAllCartsByMemberIdAndStatus(){
 
-        List<CartEntity> list = cartRepository.findAllByMemberIdAndStatusOrderByCreatedAtDesc(memberUtil.getCurrentMember().getId(), true);
+        List<CartEntity> list = cartRepository.findAllByMemberIdAndStatusOrderByCreatedAtDesc(
+                memberUtil.getCurrentMember().getId(),
+                true);
 
         return list.stream()
                 .map(cartEntity -> {
                     RoomEntity roomEntity = roomRepository.findFirstById(cartEntity.getRoomId())
-                            .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
+                            .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
                     AccommodationEntity accommodationEntity = accommodationRepository.findFirstById(roomEntity.getAccommodationId())
-                            .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
+                            .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
 
                     AccommodationResponse accommodation = accommodationConverter.toResponse(accommodationEntity);
                     return cartConverter.toResponse(

@@ -48,7 +48,6 @@ public class ReservationService {
         AccommodationEntity accommodationEntity = accommodationRepository.findFirstById(roomEntity.getAccommodationId())
                 .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
 
-        return reservationConverter.toResponse(entity);
         AccommodationResponse accommodation = accommodationConverter.toResponse(accommodationEntity);
 
         return reservationConverter.toResponse(

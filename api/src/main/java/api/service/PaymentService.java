@@ -35,7 +35,7 @@ public class PaymentService {
     public void getCartAndChangeStatusToN(Long cartId){
         Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, true);
         if (cartEntity.isPresent()){
-            cartEntity.get().setStatus(true);
+            cartEntity.get().setStatus(false);
             cartRepository.save(cartEntity.get());
         }
     }
