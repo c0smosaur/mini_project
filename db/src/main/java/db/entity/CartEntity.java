@@ -1,6 +1,5 @@
 package db.entity;
 
-import db.enums.CartStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,7 +35,7 @@ public class CartEntity extends BaseEntity {
     private LocalDate endDate;
 
     @Enumerated(value = EnumType.STRING)
-    private CartStatus status;
+    private Boolean status;
 
     @Column(nullable = false)
     private Integer totalPrice;

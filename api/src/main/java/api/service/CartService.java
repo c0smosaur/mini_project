@@ -8,7 +8,6 @@ import api.model.request.CartRequest;
 import api.model.response.CartResponse;
 import db.entity.CartEntity;
 import db.entity.RoomEntity;
-import db.enums.CartStatus;
 import db.repository.CartRepository;
 import db.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +28,8 @@ public class CartService {
 
     // 장바구니 보기
     @Transactional(readOnly = true)
-    public List<CartResponse> getAllCartsByMemberId() {
-        return cartRepository.findAllByMemberId(memberUtil.getCurrentMember().getId())
+    public List<CartResponse> getAllCartsByMemberIdAndStatus() {
+        return cartRepository.findAllByMemberIdAndStatus(memberUtil.getCurrentMember().getId(), true)
                 .stream()
                 .map(cartConverter::toResponse)
                 .toList();
@@ -46,10 +45,10 @@ public class CartService {
     }
 
     // 카트 status 수정
-    public void getCartAndChangeStatus(Long cartId, CartStatus cartStatus) {
-        Optional<CartEntity> cartEntity = cartRepository.findFirstById(cartId);
+    public void getCartAndChangeStatus(Long cartId, Boolean cartStatus) {
+        Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, true);
         if (cartEntity.isPresent()) {
-            cartEntity.get().setStatus(cartStatus);
+            cartEntity.get().setStatus(false);
             cartRepository.save(cartEntity.get());
         }
     }

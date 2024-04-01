@@ -6,7 +6,6 @@ import api.common.exception.ResultException;
 import api.model.request.CartRequest;
 import api.model.response.CartResponse;
 import db.entity.CartEntity;
-import db.enums.CartStatus;
 
 
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class CartConverter {
                             .totalPrice(it.getTotalPrice())
                             .build();
                 })
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NULL_POINT));
+                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
     }
 
     // 장바구니 객체로 변환
@@ -41,10 +40,10 @@ public class CartConverter {
                             .capacity(it.getCapacity())
                             .startDate(it.getStartDate())
                             .endDate(it.getEndDate())
-                            .status(CartStatus.Y)
+                            .status(true)
                             .totalPrice(it.getTotalPrice())
                             .build();
                 })
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NULL_POINT));
+                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
     }
 }
