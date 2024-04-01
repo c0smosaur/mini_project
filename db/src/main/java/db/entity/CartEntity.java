@@ -35,7 +35,7 @@ public class CartEntity extends BaseEntity {
     @Column(nullable = false)
     private LocalDate endDate;
 
-    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
     private Boolean status;
 
     @Column(nullable = false)

@@ -2,7 +2,6 @@ package api.service;
 
 import api.common.error.CartErrorCode;
 import api.common.error.GeneralErrorCode;
-import api.common.error.ReservationErrorCode;
 import api.common.exception.ResultException;
 import api.common.util.MemberUtil;
 import api.converter.AccommodationConverter;
@@ -11,9 +10,8 @@ import api.model.request.CartRequest;
 import api.model.response.AccommodationCartResponse;
 import api.model.response.AccommodationResponse;
 import db.entity.AccommodationEntity;
-import db.entity.MemberEntity;
-import db.entity.RoomEntity;
 import db.entity.CartEntity;
+import db.entity.RoomEntity;
 import db.repository.AccommodationRepository;
 import db.repository.CartRepository;
 import db.repository.RoomRepository;
