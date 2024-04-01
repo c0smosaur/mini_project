@@ -52,7 +52,7 @@ public class AccommodationService {
         var optional = accommodationRepository.findById(id);
         AccommodationEntity accommodation = optional
                 .orElseThrow(
-                        () -> new ResultException(GeneralErrorCode.NULL_POINT)
+                        () -> new ResultException(GeneralErrorCode.NOT_FOUND)
                 );
 
         return AccommodationDetailResponse.builder()

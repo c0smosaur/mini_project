@@ -1,5 +1,6 @@
 package api.service;
 
+import api.common.error.GeneralErrorCode;
 import api.common.error.ReservationErrorCode;
 import api.common.exception.ResultException;
 import api.common.util.MemberUtil;
@@ -10,7 +11,6 @@ import db.entity.CartEntity;
 import db.entity.MemberEntity;
 import db.entity.ReservationEntity;
 import db.entity.RoomEntity;
-import db.enums.CartStatus;
 import db.repository.CartRepository;
 import db.repository.ReservationRepository;
 import db.repository.RoomRepository;
@@ -33,9 +33,9 @@ public class PaymentService {
 
     // CartResponse로 돌려줄 필요 x
     public void getCartAndChangeStatusToN(Long cartId){
-        Optional<CartEntity> cartEntity = cartRepository.findFirstById(cartId);
+        Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, true);
         if (cartEntity.isPresent()){
-            cartEntity.get().setStatus(CartStatus.N);
+            cartEntity.get().setStatus(false);
             cartRepository.save(cartEntity.get());
         }
     }
@@ -63,7 +63,7 @@ public class PaymentService {
 
             validateRoomCapacity(request.getCapacity(), entity);
             modifyRoomStock(entity);
-        } else throw new ResultException(ReservationErrorCode.NONEXISTENT_DATA);
+        } else throw new ResultException(GeneralErrorCode.NOT_FOUND);
     }
 
     // 방 재고 차감
@@ -100,7 +100,6 @@ public class PaymentService {
         // reservation 저장
         ReservationEntity entity = reservationConverter.toEntity(request);
         ReservationEntity newEntity = reservationRepository.save(entity);
-        ReservationResponse response = reservationConverter.toResponse(newEntity);
-        return response;
+        return reservationConverter.toResponse(newEntity);
     }
 }

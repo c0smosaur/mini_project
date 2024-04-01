@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<CartEntity, Long> {
+    List<CartEntity> findAllByMemberIdAndStatusOrderByCreatedAtDesc(Long memberId, Boolean status);
 
-    Optional<CartEntity> findFirstById(Long id);
-
-    List<CartEntity> findAllByMemberIdOrderByCreatedAtDesc(Long memberId);
+    Optional<CartEntity> findFirstByIdAndStatus(Long id, Boolean status);
 }

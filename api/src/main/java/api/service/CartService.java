@@ -1,7 +1,7 @@
 package api.service;
 
 import api.common.error.CartErrorCode;
-import api.common.error.ReservationErrorCode;
+import api.common.error.GeneralErrorCode;
 import api.common.exception.ResultException;
 import api.common.util.MemberUtil;
 import api.converter.AccommodationConverter;
@@ -10,10 +10,8 @@ import api.model.request.CartRequest;
 import api.model.response.AccommodationCartResponse;
 import api.model.response.AccommodationResponse;
 import db.entity.AccommodationEntity;
-import db.entity.MemberEntity;
-import db.entity.RoomEntity;
 import db.entity.CartEntity;
-import db.enums.CartStatus;
+import db.entity.RoomEntity;
 import db.repository.AccommodationRepository;
 import db.repository.CartRepository;
 import db.repository.RoomRepository;
@@ -38,17 +36,18 @@ public class CartService {
 
     // 장바구니 보기
     @Transactional(readOnly = true)
-    public List<AccommodationCartResponse> getAllCartsByMemberId(){
-        MemberEntity memberEntity = memberUtil.getCurrentMember();
+    public List<AccommodationCartResponse> getAllCartsByMemberIdAndStatus(){
 
-        List<CartEntity> list = cartRepository.findAllByMemberIdOrderByCreatedAtDesc(memberEntity.getId());
+        List<CartEntity> list = cartRepository.findAllByMemberIdAndStatusOrderByCreatedAtDesc(
+                memberUtil.getCurrentMember().getId(),
+                true);
 
         return list.stream()
                 .map(cartEntity -> {
                     RoomEntity roomEntity = roomRepository.findFirstById(cartEntity.getRoomId())
-                            .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
+                            .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
                     AccommodationEntity accommodationEntity = accommodationRepository.findFirstById(roomEntity.getAccommodationId())
-                            .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
+                            .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
 
                     AccommodationResponse accommodation = accommodationConverter.toResponse(accommodationEntity);
                     return cartConverter.toResponse(
@@ -67,10 +66,10 @@ public class CartService {
     }
 
     // 카트 status 수정
-    public void getCartAndChangeStatus(Long cartId, CartStatus cartStatus) {
-        Optional<CartEntity> cartEntity = cartRepository.findFirstById(cartId);
+    public void getCartAndChangeStatus(Long cartId, Boolean cartStatus) {
+        Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, cartStatus);
         if (cartEntity.isPresent()) {
-            cartEntity.get().setStatus(cartStatus);
+            cartEntity.get().setStatus(false);
             cartRepository.save(cartEntity.get());
         }
     }

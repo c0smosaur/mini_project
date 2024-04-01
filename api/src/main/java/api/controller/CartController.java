@@ -4,7 +4,6 @@ import api.common.result.ResultWrapper;
 import api.model.request.CartRequest;
 import api.model.response.AccommodationCartResponse;
 import api.service.CartService;
-import db.enums.CartStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class CartController {
     public ResponseEntity<ResultWrapper<List<AccommodationCartResponse>>> getAllCartsByMemberId() {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
-                .body(ResultWrapper.OK(cartService.getAllCartsByMemberId()));
+                .body(ResultWrapper.OK(cartService.getAllCartsByMemberIdAndStatus()));
     }
 
     // 장바구니 담기
@@ -40,7 +39,7 @@ public class CartController {
     @DeleteMapping("/{cart-id}")
     public ResponseEntity<ResultWrapper<Void>> deleteCart(
             @PathVariable(name = "cart-id") Long cartId){
-        cartService.getCartAndChangeStatus(cartId, CartStatus.N);
+        cartService.getCartAndChangeStatus(cartId, true);
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(ResultWrapper.OK(null));

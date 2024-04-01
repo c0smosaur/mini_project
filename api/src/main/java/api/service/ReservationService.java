@@ -32,6 +32,7 @@ public class ReservationService {
     private final AccommodationConverter accommodationConverter;
     private final MemberUtil memberUtil;
 
+
     // 숙소 객실별 예약 조회
     public List<ReservationResponse> getAllReservationForRoom(Long roomId){
         List<ReservationEntity> reservations = reservationRepository.findAllByRoomIdOrderByCreatedAtDesc(roomId);

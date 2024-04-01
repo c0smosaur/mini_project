@@ -28,7 +28,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -44,14 +43,14 @@ public class MemberService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenConverter refreshTokenConverter;
 
-    public void saveProfileImageLocally(byte[] profileImage,
-                                        String filename,
-                                        String format) throws IOException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(profileImage);
-        BufferedImage image = ImageIO.read(inputStream);
-        File output = new File(filename);
-        ImageIO.write(image, format, output);
-    }
+//    public void saveProfileImageLocally(byte[] profileImage,
+//                                        String filename,
+//                                        String format) throws IOException {
+//        ByteArrayInputStream inputStream = new ByteArrayInputStream(profileImage);
+//        BufferedImage image = ImageIO.read(inputStream);
+//        File output = new File(filename);
+//        ImageIO.write(image, format, output);
+//    }
 
     public MemberResponse register(MemberRegisterRequest request){
         // 중복 이메일 확인
@@ -63,30 +62,29 @@ public class MemberService {
 
         // TODO: 이미지 저장 클래스 따로 분리하여 작성하기
         // 전달받은 프로필 이미지 존재 시
-        if (request.getProfileImage()!=null){
-            // 로컬 파일 주소
-            // classloader 사용?
-            String filename = "\\resources\\images\\"+request.getUsername().split("@")[0]+".png";
-            try{
-                byte[] blobData = Base64.getDecoder().decode(request.getProfileImage());
-                saveProfileImageLocally(blobData,
-                        filename,
-                        "png");
-                // 파일 경로를 DB에 저장, 파일 이름은 {username}.png
-                request.setProfileImage(filename);
-            } catch (IOException e){
-                throw new ResultException(MemberErrorCode.IMAGE_ERROR);
-            }
-        } else { // 프로필 사진이 없을 때 디폴트 사진 경로 저장
-            request.setProfileImage("\\resources\\images\\default.png");
-        }
+//        if (request.getProfileImage()!=null){
+//            // 로컬 파일 주소
+//            // classloader 사용?
+//            String filename = "\\resources\\images\\"+request.getUsername().split("@")[0]+".png";
+//            try{
+//                byte[] blobData = Base64.getDecoder().decode(request.getProfileImage());
+//                saveProfileImageLocally(blobData,
+//                        filename,
+//                        "png");
+//                // 파일 경로를 DB에 저장, 파일 이름은 {username}.png
+//                request.setProfileImage(filename);
+//            } catch (IOException e){
+//                throw new ResultException(MemberErrorCode.IMAGE_ERROR);
+//            }
+//        } else { // 프로필 사진이 없을 때 디폴트 사진 경로 저장
+//            request.setProfileImage("\\resources\\images\\default.png");
+//        }
 
         // 요청에서 받은 비밀번호 암호화하여 저장
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         MemberEntity entity = memberConverter.toEntity(request);
         MemberEntity newEntity = memberRepository.save(entity);
-        MemberResponse response = memberConverter.toResponse(newEntity);
-        return response;
+        return memberConverter.toResponse(newEntity);
     }
 
     public MemberLoginResponse signIn(MemberLoginRequest request) {
@@ -119,11 +117,10 @@ public class MemberService {
         data.put("type",member.getType());
         TokenDto accessToken = jwtProvider.generateAccessToken(data);
 
-        MemberLoginResponse response = memberConverter.toLoginResponse(
+        return memberConverter.toLoginResponse(
                 member,
                 accessToken.getToken(),
                 refreshToken.getToken());
-        return response;
     }
 
     public MemberResponse info(){

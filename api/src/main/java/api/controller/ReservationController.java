@@ -5,10 +5,7 @@ import api.model.response.AccommodationReservationResponse;
 import api.model.response.ReservationResponse;
 import api.service.ReservationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,9 +17,9 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     // 특정 방의 예약 조회
-    @GetMapping("/room/{room-id}")
+    @GetMapping()
     public ResultWrapper<List<ReservationResponse>> viewReservationForRoom(
-            @PathVariable(name = "room-id") Long roomId){
+            @RequestParam(name = "room") Long roomId){
         List<ReservationResponse> responseList = reservationService.getAllReservationForRoom(roomId);
         return ResultWrapper.OK(responseList);
     }
