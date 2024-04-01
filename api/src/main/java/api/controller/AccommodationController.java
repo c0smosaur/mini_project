@@ -22,20 +22,20 @@ public class AccommodationController {
     // 숙소 카테고리별 조회
     @GetMapping()
     public ResponseEntity<ResultWrapper<List<AccommodationResponse>>> getAccommodationsByCategory(
-            @RequestParam(required = false) AccommodationCategory category,
+            @RequestParam(required = false, name="category") String categoryString,
             final Pageable pageable
     ) {
-        if (category == null) {
+        if (categoryString == null) {
             return ResponseEntity
                     .status(HttpStatus.OK.value())
                     .body(ResultWrapper.OK(accommodationService.getAllAccommodations(pageable)));
         } else {
+            AccommodationCategory category = AccommodationCategory.valueOf(categoryString);
             return ResponseEntity
                     .status(HttpStatus.OK.value())
                     .body(ResultWrapper.OK(accommodationService.getAccommodationsByCategory(category, pageable)));
         }
     }
-
 
     // 숙소 개별 조회 (상세 조회)
     @GetMapping("/{accommodationId}")
