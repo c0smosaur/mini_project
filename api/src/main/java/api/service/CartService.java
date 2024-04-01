@@ -46,7 +46,7 @@ public class CartService {
 
     // 카트 status 수정
     public void getCartAndChangeStatus(Long cartId, Boolean cartStatus) {
-        Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, true);
+        Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, cartStatus);
         if (cartEntity.isPresent()) {
             cartEntity.get().setStatus(false);
             cartRepository.save(cartEntity.get());
