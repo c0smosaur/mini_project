@@ -1,6 +1,7 @@
 package api.controller;
 
 import api.common.result.ResultWrapper;
+import api.model.response.AccommodationReservationResponse;
 import api.model.response.ReservationResponse;
 import api.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +26,16 @@ public class ReservationController {
 
     // 예약 내역 확인
     @GetMapping("/{reservationId}")
-    public ResultWrapper<ReservationResponse> confirmReservation(
+    public ResultWrapper<AccommodationReservationResponse> confirmReservation(
             @PathVariable Long reservationId){
-        ReservationResponse response = reservationService.getReservation(reservationId);
+        AccommodationReservationResponse response = reservationService.getReservation(reservationId);
         return ResultWrapper.OK(response);
     }
 
     // 사용자의 과거 예약 내역 전체 조회
     @GetMapping("/history")
-    public ResultWrapper<List<ReservationResponse>> viewUserReservationsAll(){
-        List<ReservationResponse> responseList = reservationService.getUserReservationAll();
+    public ResultWrapper<List<AccommodationReservationResponse>> viewUserReservationsAll(){
+        List<AccommodationReservationResponse> responseList = reservationService.getUserReservationAll();
         return ResultWrapper.OK(responseList);
     }
 }

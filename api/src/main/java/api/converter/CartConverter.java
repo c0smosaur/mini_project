@@ -4,8 +4,9 @@ import api.common.annotation.Converter;
 import api.common.error.GeneralErrorCode;
 import api.common.exception.ResultException;
 import api.model.request.CartRequest;
-import api.model.response.CartResponse;
+import api.model.response.*;
 import db.entity.CartEntity;
+import db.entity.RoomEntity;
 
 
 import java.util.Optional;
@@ -41,5 +42,27 @@ public class CartConverter {
                         .totalPrice(it.getTotalPrice())
                         .build())
                 .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
+    }
+
+    // 장바구니 보기 시 응답 객체로 변환
+    public AccommodationCartResponse toResponse(AccommodationResponse accommodation,
+                                                CartEntity cartEntity,
+                                                RoomEntity roomEntity){
+        CartResponseWithPrice cart = CartResponseWithPrice.builder()
+                .id(cartEntity.getId())
+                .roomId(cartEntity.getRoomId())
+                .maxCapacity(roomEntity.getMaxCapacity())
+                .capacity(cartEntity.getCapacity())
+                .startDate(cartEntity.getStartDate())
+                .endDate(cartEntity.getEndDate())
+                .roomPrice(roomEntity.getPrice())
+                .totalPrice(cartEntity.getTotalPrice())
+                .build();
+
+        return AccommodationCartResponse.builder()
+                .accommodation(accommodation)
+                .cart(cart)
+                .build();
+
     }
 }

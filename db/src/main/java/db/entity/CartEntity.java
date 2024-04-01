@@ -26,6 +26,7 @@ public class CartEntity extends BaseEntity {
     @Column(nullable = false)
     private Long roomId;
 
+    @Column(nullable = false)
     private Integer capacity;
 
     @Column(nullable = false)
@@ -38,7 +39,7 @@ public class CartEntity extends BaseEntity {
     private Boolean status;
 
     @Column(nullable = false)
-    private Integer totalPrice;
+    private Long totalPrice;
 
     @Column(updatable = false)
     @LastModifiedDate
