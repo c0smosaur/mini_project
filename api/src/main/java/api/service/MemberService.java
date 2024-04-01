@@ -43,14 +43,14 @@ public class MemberService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenConverter refreshTokenConverter;
 
-    public void saveProfileImageLocally(byte[] profileImage,
-                                        String filename,
-                                        String format) throws IOException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(profileImage);
-        BufferedImage image = ImageIO.read(inputStream);
-        File output = new File(filename);
-        ImageIO.write(image, format, output);
-    }
+//    public void saveProfileImageLocally(byte[] profileImage,
+//                                        String filename,
+//                                        String format) throws IOException {
+//        ByteArrayInputStream inputStream = new ByteArrayInputStream(profileImage);
+//        BufferedImage image = ImageIO.read(inputStream);
+//        File output = new File(filename);
+//        ImageIO.write(image, format, output);
+//    }
 
     public MemberResponse register(MemberRegisterRequest request){
         // 중복 이메일 확인

@@ -18,7 +18,7 @@ public class ReservationController {
     // 특정 방의 예약 조회
     @GetMapping()
     public ResultWrapper<List<ReservationResponse>> viewReservationForRoom(
-            @RequestParam(name = "room",required = true) Long roomId){
+            @RequestParam(name = "room") Long roomId){
         List<ReservationResponse> responseList = reservationService.getAllReservationForRoom(roomId);
         return ResultWrapper.OK(responseList);
     }
