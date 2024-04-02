@@ -36,8 +36,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         it -> it
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers("/api/**").permitAll()
-                                .requestMatchers("/open-api/**").permitAll()
+                                .requestMatchers("/api/members/register",
+                                        "api/members/login",
+                                        "api/accommodations",
+                                        "api/accommodations/{accommodationId}").permitAll()
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
                 )
