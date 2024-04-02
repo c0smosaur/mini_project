@@ -46,7 +46,7 @@ public class CartService {
                 .map(cartEntity -> {
                     RoomEntity roomEntity = roomRepository.findFirstById(cartEntity.getRoomId())
                             .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
-                    AccommodationEntity accommodationEntity = accommodationRepository.findFirstById(roomEntity.getAccommodationId())
+                    AccommodationEntity accommodationEntity = accommodationRepository.findFirstById(roomEntity.getAccommodation().getId())
                             .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
 
                     AccommodationResponse accommodation = accommodationConverter.toResponse(accommodationEntity);
