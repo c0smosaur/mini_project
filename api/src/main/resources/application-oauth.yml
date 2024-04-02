@@ -1,14 +1,15 @@
 spring:
   security:
     oauth2:
-      registration:
-        google:
-          client-id:
-          client-secret:
-          scope: email, name
-          redirect-uri:
-            - http://localhost:8080/oauth2/callback
-            - http://localhost:8080/api/my-page
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+            scope: email, name
+            redirect-uri:
+              - http://localhost:8080/oauth2/callback
+              - http://localhost:8080/api/my-page
 
 oauth:
   authorizedRedirectUri: localhost:8080/api/accommodations
