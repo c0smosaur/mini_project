@@ -29,13 +29,13 @@ public class PaymentController {
     }
 
     @PostMapping("/cart-reservation")
-    public ResponseEntity<ResultWrapper<Void>> modifyCartAndAddReservation(
+    public ResponseEntity<ResultWrapper<ReservationResponse>> modifyCartAndAddReservation(
             @RequestBody CartReservationRequest request) {
         paymentService.getCartAndChangeStatusToN(request.getCartId());
-        paymentService.addReservation(request.getReservation());
+        ReservationResponse response = paymentService.addReservation(request.getReservation());
 
         return ResponseEntity
                 .status(HttpStatus.OK.value())
-                .body(ResultWrapper.OK(null));
+                .body(ResultWrapper.OK(response));
     }
 }

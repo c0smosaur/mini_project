@@ -62,7 +62,7 @@ public class PaymentService {
             RoomEntity entity = roomEntity.get();
 
             validateRoomCapacity(request.getCapacity(), entity);
-            modifyRoomStock(entity);
+//            modifyRoomStock(entity);
         } else throw new ResultException(GeneralErrorCode.NOT_FOUND);
     }
 
