@@ -42,14 +42,13 @@ public class SecurityConfig {
                 // form login 비활성화
 //                .formLogin(AbstractHttpConfigurer::disable)
                 .oauth2Login((oauth2) -> oauth2
-                        .loginPage("/api/oauth2/")
                         .defaultSuccessUrl("/api/accommodations")
                         .failureUrl("/open-api/member/register")
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                                 .authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository)
-                                .baseUri(""))
+                                .baseUri("/oauth2/authorize"))
                         .redirectionEndpoint(redirectionEndpoint -> redirectionEndpoint
-                                .baseUri(""))
+                                .baseUri("/oauth2/callback/*"))
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                 .userService(customOAuth2UserService))
                         .successHandler(oAuth2AuthenticationSuccessHandler)
