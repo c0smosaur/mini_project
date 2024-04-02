@@ -3,10 +3,15 @@ spring:
     oauth2:
       registration:
         google:
-          client-id: 1021343492232-5blret1okhs6dt1ort0s9nph7uuu590v.apps.googleusercontent.com
-          client-secret: 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
+          client-id:
+          client-secret:
           scope: email, name
-          redirect-uri: http://localhost:8080/oauth2/callback/google
+          redirect-uri:
+            - http://localhost:8080/oauth2/callback
+            - http://localhost:8080/api/my-page
+
+oauth:
+  authorizedRedirectUri: localhost:8080/api/accommodations
 #        naver:
 #          client-name: Naver
 #          redirect-uri: http://localhost:8080/login/oauth2/naver
