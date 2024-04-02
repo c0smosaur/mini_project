@@ -17,7 +17,4 @@ public class SocialOAuth {
     @Enumerated(value = EnumType.STRING)
     private OAuthProvider oAuthProvider;
     private String oAuthId;
-    private String email;
-    private String name;
-    private String attributes;
 }

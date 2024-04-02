@@ -43,9 +43,6 @@ public class MemberConverter {
                             .socialOAuth(SocialOAuth.builder()
                                     .oAuthId(oAuth2UserInfo.getOAuth2Id())
                                     .oAuthProvider(oAuthProvider)
-                                    .email(oAuth2UserInfo.getEmail())
-                                    .name(oAuth2UserInfo.getName())
-                                    .attributes(oAuth2UserInfo.getAttributes().toString())
                                     .build())
                             .build();
     }
