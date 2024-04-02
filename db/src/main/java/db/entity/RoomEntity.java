@@ -1,11 +1,11 @@
 package db.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.math.BigDecimal;
 
 @Entity(name="room")
 
@@ -16,8 +16,9 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 public class RoomEntity extends BaseEntity {
 
-    @Column(nullable = false)
-    private Long accommodationId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "accommodationId")
+    private AccommodationEntity accommodation;
 
     private Integer maxCapacity;
 

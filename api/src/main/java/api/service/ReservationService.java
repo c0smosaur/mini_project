@@ -45,7 +45,7 @@ public class ReservationService {
                 .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
         RoomEntity roomEntity = roomRepository.findFirstById(reservationEntity.getRoomId())
                 .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
-        AccommodationEntity accommodationEntity = accommodationRepository.findFirstById(roomEntity.getAccommodationId())
+        AccommodationEntity accommodationEntity = accommodationRepository.findFirstById(roomEntity.getAccommodation().getId())
                 .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
 
         AccommodationResponse accommodation = accommodationConverter.toResponse(accommodationEntity);
@@ -64,7 +64,7 @@ public class ReservationService {
                 .map(reservationEntity -> {
                     RoomEntity roomEntity = roomRepository.findFirstById(reservationEntity.getRoomId())
                             .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
-                    AccommodationEntity accommodationEntity = accommodationRepository.findFirstById(roomEntity.getAccommodationId())
+                    AccommodationEntity accommodationEntity = accommodationRepository.findFirstById(roomEntity.getAccommodation().getId())
                             .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
 
                     AccommodationResponse accommodation = accommodationConverter.toResponse(accommodationEntity);
