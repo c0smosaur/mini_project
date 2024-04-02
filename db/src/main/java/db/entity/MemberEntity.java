@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity(name="member")
 @NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -43,10 +43,6 @@ public class MemberEntity extends BaseEntity{
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    @Column(nullable = true, length = 50)
-    @Enumerated(value = EnumType.STRING)
-    private OAuthProvider oAuthProvider;
-
-    @Column(nullable = true, length = 255)
-    private String oAuthId;
+    @Embedded
+    private SocialOAuth socialOAuth;
 }

@@ -3,12 +3,15 @@ package api.converter;
 import api.common.annotation.Converter;
 import api.common.error.GeneralErrorCode;
 import api.common.exception.ResultException;
+import api.config.oauth2.OAuth2UserInfo;
 import api.model.request.MemberRegisterRequest;
 import api.model.response.MemberLoginResponse;
 import api.model.response.MemberResponse;
 import db.entity.MemberEntity;
+import db.entity.SocialOAuth;
 import db.enums.MemberStatus;
 import db.enums.MemberType;
+import db.enums.OAuthProvider;
 
 import java.util.Optional;
 
@@ -28,7 +31,23 @@ public class MemberConverter {
                             .profileImage(it.getProfileImage())
                             .build();
                 })
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NULL_POINT));
+                .orElseThrow(() -> new ResultException(GeneralErrorCode.BAD_REQUEST));
+    }
+
+    public MemberEntity toEntity(OAuthProvider oAuthProvider, OAuth2UserInfo oAuth2UserInfo){
+        return MemberEntity.builder()
+                            .username(oAuth2UserInfo.getEmail())
+                            .name(oAuth2UserInfo.getName())
+                            .status(MemberStatus.REGISTERED)
+                            .type(MemberType.USER)
+                            .socialOAuth(SocialOAuth.builder()
+                                    .oAuthId(oAuth2UserInfo.getOAuth2Id())
+                                    .oAuthProvider(oAuthProvider)
+                                    .email(oAuth2UserInfo.getEmail())
+                                    .name(oAuth2UserInfo.getName())
+                                    .attributes(oAuth2UserInfo.getAttributes().toString())
+                                    .build())
+                            .build();
     }
 
     // 로그인 반환값 (유저 정보와 토큰 2개)
@@ -45,7 +64,7 @@ public class MemberConverter {
                             .refreshToken(refreshToken)
                             .build();
                 })
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NULL_POINT));
+                .orElseThrow(() -> new ResultException(GeneralErrorCode.BAD_REQUEST));
     }
 
     // 유저 정보 조회 시 반환
@@ -60,6 +79,6 @@ public class MemberConverter {
                             .profileImage(it.getProfileImage())
                             .build();
                 })
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NULL_POINT));
+                .orElseThrow(() -> new ResultException(GeneralErrorCode.BAD_REQUEST));
     }
 }
