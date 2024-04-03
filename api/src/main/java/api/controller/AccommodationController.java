@@ -1,7 +1,6 @@
 package api.controller;
 
 import api.common.result.ResultWrapper;
-import api.model.response.AccommodationDetailResponse;
 import api.model.response.AccommodationResponse;
 import api.service.AccommodationService;
 import db.enums.AccommodationCategory;
@@ -19,7 +18,7 @@ import java.util.List;
 public class AccommodationController {
     private final AccommodationService accommodationService;
 
-    // 숙소 카테고리별 조회
+    // 숙소 전체 조회, 카테고리별 조회
     @GetMapping()
     public ResponseEntity<ResultWrapper<List<AccommodationResponse>>> getAccommodationsByCategory(
             @RequestParam(required = false, name="category") String categoryString,
@@ -39,7 +38,7 @@ public class AccommodationController {
 
     // 숙소 개별 조회 (상세 조회)
     @GetMapping("/{accommodationId}")
-    public ResponseEntity<ResultWrapper<AccommodationDetailResponse>> getAccommodationById(
+    public ResponseEntity<ResultWrapper<AccommodationResponse>> getAccommodationById(
             @PathVariable Long accommodationId
     ) {
         return ResponseEntity
