@@ -1,14 +1,10 @@
 package db.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity(name="room")
-
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -17,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 public class RoomEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accommodationId")
+    @ToString.Exclude
     private AccommodationEntity accommodation;
 
     private Integer maxCapacity;
