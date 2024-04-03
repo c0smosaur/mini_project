@@ -10,6 +10,6 @@ COPY db/build/libs/db-0.0.1-SNAPSHOT-plain.jar /app
 COPY api/src/main/resources /app/resources
 
 # Expose the port that your application listens on
-EXPOSE 8080
+EXPOSE 443
 
 ENTRYPOINT ["java", "-jar", "api-0.0.1-SNAPSHOT.jar"]

@@ -1,3 +1,12 @@
+server:
+  port: 443
+  ssl:
+    key-store: /app/ssl/keystore.p12
+    key-store-type: PKCS12  # 개인키 파일 형식
+    key-alias: mykey  # 개인키 별칭
+    key-store-password: miniproject12345
+    enabled: true   # SSL 사용 여부
+
 spring:
   profiles:
     include: oauth
