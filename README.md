@@ -1,15 +1,18 @@
 ## KDT-BE7-Mini-Project 1조
-miniBnB
+### **miniBnB**
 배포 url: [https://minibnb.shop](https://minibnb.shop)
+
+api 문서: [swagger 링크] (https://api.minibnb.shop/swagger-ui/index.html/)
 
 작업 레포지토리: [https://github.com/c0smosaur/mini_project](https://github.com/c0smosaur/mini_project)
 
+-----
 ### [필수 구현사항]
   - 회원가입
     - 이메일 주소와, 비밀번호, 이름으로 회원가입
   - 회원 로그인 기능
     - 이메일과 비밀번호로 로그인
-    - DB에 저장된 정보로 사용자가 유효한 사용자 인지 판단 후 JWT 발급하여 사용
+    - DB에 저장된 정보와 비교, 일치하면 JWT 발급
     - 상품 조회(전체, 개별), 회원 가입은 로그인 없이 사용 가능
   - 전체 상품 목록 조회
     - 데이터베이스에서 전체 상품 목록을 가져옵니다.
@@ -24,7 +27,8 @@ miniBnB
     - 주문 페이지에서 결제하기 버튼 클릭 시 결제절차 없이 주문 정보를 DB에 저장
   - 주문 결과 확인
     - 결제 처리 시, 주문한 상품에 대한 주문 결과를 출력
-  
+
+------
 ### [선택 구현사항]
   - 카테고리별 상품 목록 조회
     - 한국관광공사 TourAPI의 소분류에 따라 카테고리별로 조회 가능
@@ -34,9 +38,10 @@ miniBnB
     - 주문하기 버튼을 통해 주문/결제 화면으로 이동
   - 주문 내역 확인
     - 마이페이지에서 예약내역 출력
+-------
 
 ### ERD
 ![](https://velog.velcdn.com/images/c0smosaur/post/a2ef1b85-8195-48b5-8f08-2da33d204d5e/image.PNG)
 
 ### 사용 스택
-![](https://velog.velcdn.com/images/c0smosaur/post/16e74f80-d4e6-43d1-90fc-70a1a8bf2fb9/image.PNG)
+![](https://velog.velcdn.com/images/c0smosaur/post/c82c5f28-aec3-4ed0-b0a2-5a73cd22a4e2/image.PNG)
