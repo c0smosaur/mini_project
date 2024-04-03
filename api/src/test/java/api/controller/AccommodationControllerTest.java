@@ -59,7 +59,7 @@ class AccommodationControllerTest {
                                         RoomResponse.builder()
                                                 .id(1L)
                                                 .maxCapacity(2)
-                                                .price(127500L)
+                                                .price(117500L)
                                                 .stock(1)
                                                 .build(),
                                         RoomResponse.builder()
