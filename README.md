@@ -1,6 +1,7 @@
 ## KDT-BE7-Mini-Project 1조
 miniBnB
 배포 url: [https://minibnb.shop](https://minibnb.shop)
+
 작업 레포지토리: [https://github.com/c0smosaur/mini_project](https://github.com/c0smosaur/mini_project)
 
 ### [필수 구현사항]
@@ -35,7 +36,7 @@ miniBnB
     - 마이페이지에서 예약내역 출력
 
 ### ERD
-!(https://velog.velcdn.com/images/c0smosaur/post/a2ef1b85-8195-48b5-8f08-2da33d204d5e/image.PNG)
+![](https://velog.velcdn.com/images/c0smosaur/post/a2ef1b85-8195-48b5-8f08-2da33d204d5e/image.PNG)
 
 ### 사용 스택
-!(https://velog.velcdn.com/images/c0smosaur/post/16e74f80-d4e6-43d1-90fc-70a1a8bf2fb9/image.PNG)
+![](https://velog.velcdn.com/images/c0smosaur/post/16e74f80-d4e6-43d1-90fc-70a1a8bf2fb9/image.PNG)
