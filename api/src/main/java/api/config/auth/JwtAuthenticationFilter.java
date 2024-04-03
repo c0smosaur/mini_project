@@ -70,13 +70,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try{
             String refreshToken = parseBearerToken(request, "RefreshToken");
             if (refreshToken==null){
-                throw new ResultException(TokenErrorCode.AUTHORIZATION_TOKEN_NOT_FOUND);
+                throw new ResultException(TokenErrorCode.EXPIRED_TOKEN, "refresh token 필요");
             }
 
             // refresh token 검증
             jwtProvider.validateRefreshToken(refreshToken);
 
-            // 만료된 access token
+            // 만료된 access token으로 새 token 발행
             String expiredAccessToken = parseBearerToken(request, HttpHeaders.AUTHORIZATION);
             TokenDto newAccessToken = jwtProvider.reissueAccessToken(expiredAccessToken);
 
@@ -121,8 +121,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 유효하지 않은 토큰 혹은 그 외 오류 발생 시 로그아웃처리, 다시 로그인하도록 유도
         } catch (Exception e){
             // printStackTrace는 개발 단계에서만 사용
-            e.printStackTrace();
-
+//            e.printStackTrace();
 
             throw new ResultException(TokenErrorCode.TOKEN_EXCEPTION);
         }
