@@ -1,13 +1,12 @@
 package db.entity;
 
 import db.enums.AccommodationCategory;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @Entity(name = "accommodation")
 @NoArgsConstructor
@@ -43,4 +42,6 @@ public class AccommodationEntity extends BaseEntity{
 
     private Double longitude;
 
+    @OneToMany(mappedBy = "accommodation")
+    private List<RoomEntity> rooms = List.of();
 }

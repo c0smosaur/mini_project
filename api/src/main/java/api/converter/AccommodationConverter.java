@@ -3,9 +3,12 @@ package api.converter;
 import api.common.annotation.Converter;
 import api.model.response.AccommodationResponse;
 import db.entity.AccommodationEntity;
+import lombok.RequiredArgsConstructor;
 
 @Converter
+@RequiredArgsConstructor
 public class AccommodationConverter {
+    private final RoomConverter roomConverter;
     public AccommodationResponse toResponse(AccommodationEntity entity) {
         return AccommodationResponse.builder()
                 .id(entity.getId())
@@ -18,6 +21,7 @@ public class AccommodationConverter {
                 .tel(entity.getTel())
                 .latitude(entity.getLatitude())
                 .longitude(entity.getLongitude())
+                .rooms(entity.getRooms().stream().map(roomConverter::toResponse).toList())
                 .build();
     }
 }
