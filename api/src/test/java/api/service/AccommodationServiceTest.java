@@ -89,4 +89,58 @@ class AccommodationServiceTest {
         assertThat(accommodations).hasSize(2);
         then(accommodationRepository).should().findAll(any(Pageable.class));
     }
+
+    @DisplayName("숙소 카테고리별 조회")
+    @Test
+    void givenAccommodationCategory_whenSearchingAccommodationsByCategory_thenReturnsAccommodations() {
+        // Given
+        given(accommodationRepository.findByCategory(any(AccommodationCategory.class), any(Pageable.class)))
+                .willReturn(new PageImpl<>(List.of(
+                        new AccommodationEntity(
+                                "가락관광호텔",
+                                "서울특별시 송파구 송파대로28길 5",
+                                "",
+                                "",
+                                "서울특별시 송파구 송파대로28길 5에 있는 가락관광호텔",
+                                B02010100,
+                                "02-400-6641~3",
+                                37.4966565128,
+                                127.1166298703,
+                                List.of(
+                                        new RoomEntity(
+                                                null, 2, 110000L, 1
+                                        ),
+                                        new RoomEntity(
+                                                null, 4, 225000L, 1
+                                        )
+                                )
+                        ),
+                        new AccommodationEntity(
+                                "가보호텔",
+                                "경기도 평택시 평택5로76번길 18-10",
+                                "http://tong.visitkorea.or.kr/cms/resource/83/1942883_image2_1.jpg",
+                                "http://tong.visitkorea.or.kr/cms/resource/83/1942883_image3_1.jpg",
+                                "경기도 평택시 평택5로76번길 18-10에 있는 가보호텔",
+                                B02010100,
+                                "0507-1396-7702",
+                                36.9932008224,
+                                127.1128582139,
+                                List.of(
+                                        new RoomEntity(
+                                                null, 2, 116500L, 1
+                                        ),
+                                        new RoomEntity(
+                                                null, 4, 223200L, 1
+                                        )
+                                )
+                        )
+                )));
+
+        // When
+        List<AccommodationResponse> accommodations = accommodationService.getAccommodationsByCategory(B02010100, PageRequest.of(0, 20));
+
+        // Then
+        assertThat(accommodations).hasSize(2);
+        then(accommodationRepository).should().findByCategory(any(AccommodationCategory.class), any(Pageable.class));
+    }
 }
