@@ -40,7 +40,7 @@ class AccommodationControllerTest {
     @DisplayName("[GET] 숙소 전체 조회")
     @Test
     @WithMockUser
-    void givenNothing_whenRequestingAccommodations_thenReturnsAccommodationsInStandardResponse() throws Exception {
+    void givenNothing_whenRequestingAllAccommodations_thenReturnsAccommodationsInStandardResponse() throws Exception {
         // Given
         given(accommodationService.getAllAccommodations(PageRequest.of(0, 20)))
                 .willReturn(List.of(
