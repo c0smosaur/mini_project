@@ -2,12 +2,20 @@
 ### **miniBnB**
 배포 url: [https://minibnb.shop](https://minibnb.shop)
 
-api 문서: [swagger 링크] (https://api.minibnb.shop/swagger-ui/index.html/)
+api 문서: [swagger 링크](https://api.minibnb.shop/swagger-ui/index.html/)
 
 작업 레포지토리: [https://github.com/c0smosaur/mini_project](https://github.com/c0smosaur/mini_project)
 
 -----
+### 역할분담
+|이름|역할|
+|--|--|
+|강서진|기능구현+Security|
+|나도윤|기능구현+배포|
+|박하은|기능구현+테스트코드|
+-----
 ### [필수 구현사항]
+![](https://velog.velcdn.com/images/c0smosaur/post/d0bd5d27-984d-4689-a14b-98b2002dd645/image.png)
   - 회원가입
     - 이메일 주소와, 비밀번호, 이름으로 회원가입
   - 회원 로그인 기능
