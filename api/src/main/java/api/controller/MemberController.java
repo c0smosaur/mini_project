@@ -7,6 +7,8 @@ import api.model.response.MemberLoginResponse;
 import api.model.response.MemberResponse;
 import api.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,28 +19,36 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    public ResultWrapper<MemberResponse> register(
+    public ResponseEntity<ResultWrapper<MemberResponse>> register(
             @RequestBody MemberRegisterRequest request) {
         MemberResponse response = memberService.register(request);
-        return ResultWrapper.OK(response);
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(response));
     }
 
     @PostMapping("/login")
-    public ResultWrapper<MemberLoginResponse> signIn(
+    public ResponseEntity<ResultWrapper<MemberLoginResponse>> signIn(
             @RequestBody MemberLoginRequest request) {
         MemberLoginResponse response = memberService.signIn(request);
-        return ResultWrapper.OK(response);
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(response));
     }
 
     @GetMapping("/my-page")
-    public ResultWrapper<MemberResponse> memberInfo(){
+    public ResponseEntity<ResultWrapper<MemberResponse>> memberInfo(){
         MemberResponse response = memberService.info();
-        return ResultWrapper.OK(response);
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(response));
     }
 
     @PostMapping("/logout")
-    public ResultWrapper<Void> logout(){
+    public ResponseEntity<ResultWrapper<Void>> logout(){
         memberService.memberLogout();
-        return ResultWrapper.OK(null);
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(null));
     }
 }

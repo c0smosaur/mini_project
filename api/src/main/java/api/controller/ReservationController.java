@@ -5,6 +5,8 @@ import api.model.response.AccommodationReservationResponse;
 import api.model.response.ReservationResponse;
 import api.service.ReservationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,24 +20,30 @@ public class ReservationController {
 
     // 특정 방의 예약 조회
     @GetMapping()
-    public ResultWrapper<List<ReservationResponse>> viewReservationForRoom(
+    public ResponseEntity<ResultWrapper<List<ReservationResponse>>> viewReservationForRoom(
             @RequestParam(name = "room") Long roomId){
         List<ReservationResponse> responseList = reservationService.getAllReservationForRoom(roomId);
-        return ResultWrapper.OK(responseList);
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(responseList));
     }
 
     // 예약 내역 확인
     @GetMapping("/{reservationId}")
-    public ResultWrapper<AccommodationReservationResponse> confirmReservation(
+    public ResponseEntity<ResultWrapper<AccommodationReservationResponse>> confirmReservation(
             @PathVariable Long reservationId){
         AccommodationReservationResponse response = reservationService.getReservation(reservationId);
-        return ResultWrapper.OK(response);
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(response));
     }
 
     // 사용자의 과거 예약 내역 전체 조회
     @GetMapping("/history")
-    public ResultWrapper<List<AccommodationReservationResponse>> viewUserReservationsAll(){
+    public ResponseEntity<ResultWrapper<List<AccommodationReservationResponse>>> viewUserReservationsAll(){
         List<AccommodationReservationResponse> responseList = reservationService.getUserReservationAll();
-        return ResultWrapper.OK(responseList);
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(responseList));
     }
 }

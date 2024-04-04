@@ -22,10 +22,12 @@ public class PaymentController {
 
     @PostMapping("/reservation")
     // 결제 후 reservation 저장
-    public ResultWrapper<ReservationResponse> addReservation(
+    public ResponseEntity<ResultWrapper<ReservationResponse>> addReservation(
             @RequestBody ReservationRequest request) {
         ReservationResponse response = paymentService.addReservation(request);
-        return ResultWrapper.OK(response);
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(ResultWrapper.OK(response));
     }
 
     @PostMapping("/cart-reservation")
