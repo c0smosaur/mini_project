@@ -116,7 +116,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             storeAuthenticationInContext(request, newAccessToken);
 
             // 헤더에 New-Access-Token으로 새 access token 전달
-            response.setHeader("New-Access-Token",newAccessToken);
+            response.setHeader("NewAccessToken",newAccessToken);
 
             // 유효하지 않은 토큰 혹은 그 외 오류 발생 시 로그아웃처리, 다시 로그인하도록 유도
         } catch (Exception e){
