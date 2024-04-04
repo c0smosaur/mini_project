@@ -57,6 +57,7 @@ public class CartService {
     }
 
     // 장바구니 담기
+    @Transactional
     public void addCart(CartRequest request) {
         validateStartAndEndDate(request.getStartDate(), request.getEndDate());
         validateCartByRoomEntity(request);
@@ -66,6 +67,7 @@ public class CartService {
     }
 
     // 카트 status 수정
+    @Transactional
     public void getCartAndChangeStatus(Long cartId, Boolean cartStatus) {
         Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, cartStatus);
         if (cartEntity.isPresent()) {

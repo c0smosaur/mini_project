@@ -16,6 +16,7 @@ import db.repository.ReservationRepository;
 import db.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class PaymentService {
     private final RoomRepository roomRepository;
     private final MemberUtil memberUtil;
 
-    // CartResponse로 돌려줄 필요 x
+    @Transactional
     public void getCartAndChangeStatusToN(Long cartId){
         Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, true);
         if (cartEntity.isPresent()){
@@ -67,6 +68,7 @@ public class PaymentService {
     }
 
     // 방 재고 차감
+    // 재고가 1이어서 사용x
     public void modifyRoomStock(RoomEntity roomEntity){
         Integer defaultRoomStock = 1;
         if (Objects.equals(roomEntity.getStock(), defaultRoomStock)){
@@ -86,6 +88,7 @@ public class PaymentService {
     }
 
     // 예약 추가
+    @Transactional
     public ReservationResponse addReservation(ReservationRequest request) {
         // 1. 현재 유저 식별번호 받아옴
         // member id 입력

@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -52,6 +53,7 @@ public class MemberService {
 //        ImageIO.write(image, format, output);
 //    }
 
+    @Transactional
     public MemberResponse register(MemberRegisterRequest request){
         // 중복 이메일 확인
         if(memberRepository.findFirstByUsernameAndStatus(
@@ -87,6 +89,7 @@ public class MemberService {
         return memberConverter.toResponse(newEntity);
     }
 
+    @Transactional
     public MemberLoginResponse signIn(MemberLoginRequest request) {
         // username이 일치하고 등록된 상태인 회원을 찾음
         MemberEntity member = memberRepository.findFirstByUsernameAndStatus(
@@ -123,6 +126,7 @@ public class MemberService {
                 refreshToken.getToken());
     }
 
+    @Transactional(readOnly = true)
     public MemberResponse info(){
         // 현재 로그인한 멤버 정보 가져옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -134,6 +138,7 @@ public class MemberService {
         return memberConverter.toResponse(memberEntity);
     }
 
+    @Transactional
     public void memberLogout(){
         // 현재 로그인한 멤버 정보 가져옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

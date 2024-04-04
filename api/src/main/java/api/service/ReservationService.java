@@ -17,6 +17,7 @@ import db.repository.ReservationRepository;
 import db.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,12 +35,14 @@ public class ReservationService {
 
 
     // 숙소 객실별 예약 조회
+    @Transactional(readOnly = true)
     public List<ReservationResponse> getAllReservationForRoom(Long roomId){
         List<ReservationEntity> reservations = reservationRepository.findAllByRoomIdOrderByCreatedAtDesc(roomId);
         return reservations.stream().map(reservationConverter::toResponse).toList();
     }
 
     // 단일 예약 조회
+    @Transactional(readOnly = true)
     public AccommodationReservationResponse getReservation(Long reservationId){
         ReservationEntity reservationEntity = reservationRepository.findFirstById(reservationId)
                 .orElseThrow(() -> new ResultException(ReservationErrorCode.NULL_RESERVATION));
@@ -55,6 +58,7 @@ public class ReservationService {
     }
 
     // 사용자의 예약 전체 조회
+    @Transactional(readOnly = true)
     public List<AccommodationReservationResponse> getUserReservationAll(){
         MemberEntity memberEntity = memberUtil.getCurrentMember();
 
