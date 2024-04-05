@@ -1,22 +1,18 @@
 package api.service;
 
-import api.common.error.GeneralErrorCode;
-import api.common.exception.ResultException;
 import api.converter.AccommodationConverter;
-import api.converter.RoomConverter;
 import api.model.response.AccommodationResponse;
 import db.entity.AccommodationEntity;
 import db.entity.RoomEntity;
 import db.enums.AccommodationCategory;
 import db.repository.AccommodationRepository;
-import db.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
-import org.mockito.internal.InOrderImpl;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,13 +23,9 @@ import java.util.Optional;
 import static db.enums.AccommodationCategory.B02010100;
 import static db.enums.AccommodationCategory.B02011600;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class AccommodationServiceTest {

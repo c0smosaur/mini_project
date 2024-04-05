@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.math.BigDecimal;
-
 @Getter
 @Builder
 @ToString

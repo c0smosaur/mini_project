@@ -2,8 +2,10 @@ package db.entity;
 
 import db.enums.AccommodationCategory;
 import jakarta.persistence.*;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class AccommodationEntity extends BaseEntity{
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String title;
 
     @Column(nullable = false, length = 100)
