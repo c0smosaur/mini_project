@@ -29,7 +29,7 @@ jobs:
    # application.yml 파일 생성
     - name: make application.yml
       run: |
-        cd: ./api/src/main/resources
+        cd ./api/src/main/resources
         echo "${{ secrets.APPLICATION.YML }}" > ./application.yml
 
    # gradlew 실행 권한 부여
