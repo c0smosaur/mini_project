@@ -3,6 +3,7 @@ package api.converter;
 import api.common.annotation.Converter;
 import api.common.error.GeneralErrorCode;
 import api.common.exception.ResultException;
+import api.config.jwt.BothTokensDto;
 import api.model.request.MemberRegisterRequest;
 import api.model.response.MemberLoginResponse;
 import api.model.response.MemberResponse;
@@ -17,44 +18,37 @@ public class MemberConverter {
 
     // 회원가입
     public MemberEntity toEntity(MemberRegisterRequest request) {
-        return Optional.ofNullable(request)
-                .map(it -> MemberEntity.builder()
-                        .username(it.getUsername())
-                        .password(it.getPassword())
-                        .name(it.getName())
-                        .status(MemberStatus.REGISTERED)
-                        .type(MemberType.USER)
-                        .profileImage(it.getProfileImage())
-                        .build())
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
+        return MemberEntity.builder()
+                .username(request.getUsername())
+                .password(request.getPassword())
+                .name(request.getName())
+                .status(MemberStatus.REGISTERED)
+                .type(MemberType.USER)
+                .profileImage(request.getProfileImage())
+                .build();
     }
 
     // 로그인 반환값 (유저 정보와 토큰 2개)
     public MemberLoginResponse toLoginResponse(MemberEntity entity,
-                                               String accessToken,
-                                               String refreshToken) {
-        return Optional.ofNullable(entity)
-                .map(it -> MemberLoginResponse.builder()
-                        .memberId(it.getId())
-                        .username(it.getUsername())
-                        .name(it.getName())
-                        .type(it.getType())
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build())
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
+                                               BothTokensDto bothTokens) {
+        return MemberLoginResponse.builder()
+                .memberId(entity.getId())
+                .username(entity.getUsername())
+                .name(entity.getName())
+                .type(entity.getType())
+                .accessToken(bothTokens.getAccessToken().getToken())
+                .refreshToken(bothTokens.getRefreshToken().getToken())
+                .build();
     }
 
     // 유저 정보 조회 시 반환
     public MemberResponse toResponse(MemberEntity entity) {
-        return Optional.ofNullable(entity)
-                .map(it -> MemberResponse.builder()
-                        .memberId(it.getId())
-                        .name(it.getName())
-                        .username(it.getUsername())
-                        .type(it.getType())
-                        .profileImage(it.getProfileImage())
-                        .build())
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
+        return MemberResponse.builder()
+                .memberId(entity.getId())
+                .name(entity.getName())
+                .username(entity.getUsername())
+                .type(entity.getType())
+                .profileImage(entity.getProfileImage())
+                .build();
     }
 }

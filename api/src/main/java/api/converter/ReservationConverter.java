@@ -17,28 +17,25 @@ import java.util.Optional;
 public class ReservationConverter {
 
     public ReservationResponse toResponse(ReservationEntity entity) {
-        return Optional.ofNullable(entity)
-                .map(it -> ReservationResponse.builder()
-                        .id(it.getId())
-                        .roomId(it.getRoomId())
-                        .capacity(it.getCapacity())
-                        .startDate(it.getStartDate())
-                        .endDate(it.getEndDate())
-                        .totalPrice(it.getTotalPrice())
-                        .build())
-                .orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
+        return ReservationResponse.builder()
+                .id(entity.getId())
+                .roomId(entity.getRoomId())
+                .capacity(entity.getCapacity())
+                .startDate(entity.getStartDate())
+                .endDate(entity.getEndDate())
+                .totalPrice(entity.getTotalPrice())
+                .build();
     }
 
     public ReservationEntity toEntity(ReservationRequest request) {
-        return Optional.ofNullable(request)
-                .map(it -> ReservationEntity.builder()
-                        .roomId(it.getRoomId())
-                        .memberId(it.getMemberId())
-                        .capacity(it.getCapacity())
-                        .startDate(it.getStartDate())
-                        .endDate(it.getEndDate())
-                        .totalPrice(it.getTotalPrice())
-                        .build()).orElseThrow(() -> new ResultException(GeneralErrorCode.NOT_FOUND));
+        return ReservationEntity.builder()
+                        .roomId(request.getRoomId())
+                        .memberId(request.getMemberId())
+                        .capacity(request.getCapacity())
+                        .startDate(request.getStartDate())
+                        .endDate(request.getEndDate())
+                        .totalPrice(request.getTotalPrice())
+                        .build();
     }
     
     public AccommodationReservationResponse toResponse(AccommodationResponse accommodation,
@@ -61,5 +58,4 @@ public class ReservationConverter {
                 .build();
 
     }
-
 }

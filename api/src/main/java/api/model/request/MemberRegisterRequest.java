@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class) // profile_image에 적용이 안되길래 일단 추가
 public class MemberRegisterRequest {
 
     @NotBlank

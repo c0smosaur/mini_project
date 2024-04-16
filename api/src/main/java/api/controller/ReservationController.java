@@ -19,7 +19,7 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     // 특정 방의 예약 조회
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<ResultWrapper<List<ReservationResponse>>> viewReservationForRoom(
             @RequestParam(name = "room") Long roomId){
         List<ReservationResponse> responseList = reservationService.getAllReservationForRoom(roomId);

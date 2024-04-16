@@ -34,7 +34,7 @@ public class SecurityConfig {
                 // form login 비활성화
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        it -> it
+                        requests -> requests
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/api/members/register",
                                         "api/members/login",
@@ -48,6 +48,7 @@ public class SecurityConfig {
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // JWT 필터 추가
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
+                .logout()
         ;
 
         return httpSecurity.build();

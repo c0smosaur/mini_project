@@ -17,13 +17,13 @@ public class MemberUtil {
 
     private final MemberRepository memberRepository;
 
-    public MemberEntity getCurrentMember(){
+    public Long getCurrentMember(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MemberEntity memberEntity = memberRepository.findFirstByUsernameAndStatus(
                 authentication.getName(),
                 MemberStatus.REGISTERED
         ).orElseThrow(() -> new ResultException(TokenErrorCode.TOKEN_EXCEPTION));
 
-        return memberEntity;
+        return memberEntity.getId();
     }
 }

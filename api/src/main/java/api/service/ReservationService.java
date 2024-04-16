@@ -60,9 +60,9 @@ public class ReservationService {
     // 사용자의 예약 전체 조회
     @Transactional(readOnly = true)
     public List<AccommodationReservationResponse> getUserReservationAll(){
-        MemberEntity memberEntity = memberUtil.getCurrentMember();
+        Long memberId = memberUtil.getCurrentMember();
 
-        List<ReservationEntity> list = reservationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberEntity.getId());
+        List<ReservationEntity> list = reservationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId);
 
         return list.stream()
                 .map(reservationEntity -> {

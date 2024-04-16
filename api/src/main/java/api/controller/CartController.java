@@ -4,12 +4,15 @@ import api.common.result.ResultWrapper;
 import api.model.request.CartRequest;
 import api.model.response.AccommodationCartResponse;
 import api.service.CartService;
+import db.entity.CartEntity;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/carts")
@@ -19,15 +22,15 @@ public class CartController {
 
     // 장바구니 보기
     @GetMapping
-    public ResponseEntity<ResultWrapper<List<AccommodationCartResponse>>> getAllCartsByMemberId() {
+    public ResponseEntity<ResultWrapper<List<AccommodationCartResponse>>> getMemberCarts() {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
-                .body(ResultWrapper.OK(cartService.getAllCartsByMemberIdAndStatus()));
+                .body(ResultWrapper.OK(cartService.getMemberCarts()));
     }
 
     // 장바구니 담기
     @PostMapping
-    public ResponseEntity<ResultWrapper<Void>> addCart(@RequestBody CartRequest request) {
+    public ResponseEntity<ResultWrapper<Void>> addCart(@Valid @RequestBody CartRequest request) {
         cartService.addCart(request);
 
         return ResponseEntity
@@ -36,12 +39,12 @@ public class CartController {
     }
 
     // 장바구니 삭제
-    @DeleteMapping("/{cart-id}")
+    @DeleteMapping("/{cartId}")
     public ResponseEntity<ResultWrapper<Void>> deleteCart(
-            @PathVariable(name = "cart-id") Long cartId){
-        cartService.getCartAndChangeStatus(cartId, true);
+            @PathVariable Long cartId){
+        Optional<CartEntity> cartEntity = cartService.getCartAndChangeStatus(cartId, true);
         return ResponseEntity
-                .status(HttpStatus.OK.value())
+                .status(HttpStatus.NO_CONTENT.value())
                 .body(ResultWrapper.OK(null));
     }
 }

@@ -5,6 +5,7 @@ import api.model.request.CartReservationRequest;
 import api.model.request.ReservationRequest;
 import api.model.response.ReservationResponse;
 import api.service.PaymentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class PaymentController {
     @PostMapping("/reservation")
     // 결제 후 reservation 저장
     public ResponseEntity<ResultWrapper<ReservationResponse>> addReservation(
-            @RequestBody ReservationRequest request) {
+            @Valid @RequestBody ReservationRequest request) {
         ReservationResponse response = paymentService.addReservation(request);
         return ResponseEntity
                 .status(HttpStatus.OK.value())
@@ -32,8 +33,8 @@ public class PaymentController {
 
     @PostMapping("/cart-reservation")
     public ResponseEntity<ResultWrapper<ReservationResponse>> modifyCartAndAddReservation(
-            @RequestBody CartReservationRequest request) {
-        paymentService.getCartAndChangeStatusToN(request.getCartId());
+            @Valid @RequestBody CartReservationRequest request) {
+        paymentService.modifyCartStatus(request.getCartId());
         ReservationResponse response = paymentService.addReservation(request.getReservation());
 
         return ResponseEntity

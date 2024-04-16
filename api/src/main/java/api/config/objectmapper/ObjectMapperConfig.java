@@ -26,7 +26,6 @@ public class ObjectMapperConfig {
         // 비어있는 값을 생성 가능하게 적용
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
-        // 디폴트로 disable이긴 한데 그냥..
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 

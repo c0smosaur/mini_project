@@ -33,12 +33,9 @@ public class PaymentService {
     private final MemberUtil memberUtil;
 
     @Transactional
-    public void getCartAndChangeStatusToN(Long cartId){
+    public void modifyCartStatus(Long cartId){
         Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, true);
-        if (cartEntity.isPresent()){
-            cartEntity.get().setStatus(false);
-            cartRepository.save(cartEntity.get());
-        }
+        cartEntity.ifPresent(entity -> entity.setStatus(false));
     }
 
     // 날짜 유효성 검증
@@ -92,8 +89,8 @@ public class PaymentService {
     public ReservationResponse addReservation(ReservationRequest request) {
         // 1. 현재 유저 식별번호 받아옴
         // member id 입력
-        MemberEntity memberEntity = memberUtil.getCurrentMember();
-        request.setMemberId(memberEntity.getId());
+        Long memberId = memberUtil.getCurrentMember();
+        request.setMemberId(memberId);
 
         // 2. 예약 날짜 유효성 확인
         // 3. room 재고 수 차감

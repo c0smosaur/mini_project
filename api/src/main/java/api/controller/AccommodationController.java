@@ -19,7 +19,7 @@ public class AccommodationController {
     private final AccommodationService accommodationService;
 
     // 숙소 전체 조회, 카테고리별 조회
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<ResultWrapper<List<AccommodationResponse>>> getAccommodationsByCategory(
             @RequestParam(required = false, name="category") String categoryString,
             final Pageable pageable

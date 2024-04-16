@@ -4,6 +4,7 @@ import api.common.error.TokenErrorCode;
 import api.common.exception.ResultException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import db.entity.MemberEntity;
 import db.entity.RefreshTokenEntity;
 import db.repository.RefreshTokenRepository;
 import io.jsonwebtoken.*;
@@ -36,23 +37,19 @@ public class JwtProvider {
     private final ObjectMapper objectMapper;
     private final RefreshTokenRepository refreshTokenRepository;
 
-
-    // 만료시간(토큰 발급 시간(현재) + n시간) 생성하는 메서드
-    public Date generateTime(LocalDateTime localDateTime) {
-        return Date.from(localDateTime.atZone(
-                ZoneId.systemDefault()
-        ).toInstant());
-    }
-
     // Access Token 발행 메서드
-    public TokenDto generateAccessToken(Map<String, Object> data) {
+    public TokenDto generateAccessToken(MemberEntity member) {
         String base64EncodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
         SecretKey key = Keys.hmacShaKeyFor(base64EncodedKey.getBytes());
+
+        Map<String, Object> claim = new HashMap<>();
+        claim.put("username",member.getUsername());
+        claim.put("type", member.getType());
 
         LocalDateTime accessExpiredAt = LocalDateTime.now().plusMinutes(ACCESS_TOKEN_PLUS_MINUTE);
         String accessToken = Jwts.builder()
                 .signWith(key)
-                .setClaims(data)
+                .setClaims(claim)
                 .setExpiration(generateTime(accessExpiredAt))
                 .compact();
 
@@ -60,6 +57,30 @@ public class JwtProvider {
                 .token(accessToken)
                 .expiredAt(accessExpiredAt)
                 .build();
+    }
+
+    public TokenDto regenerateAccessToken(Map<String, Object> userData) {
+        String base64EncodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
+        SecretKey key = Keys.hmacShaKeyFor(base64EncodedKey.getBytes());
+
+        LocalDateTime accessExpiredAt = LocalDateTime.now().plusMinutes(ACCESS_TOKEN_PLUS_MINUTE);
+        String accessToken = Jwts.builder()
+                .signWith(key)
+                .setClaims(userData)
+                .setExpiration(generateTime(accessExpiredAt))
+                .compact();
+
+        return TokenDto.builder()
+                .token(accessToken)
+                .expiredAt(accessExpiredAt)
+                .build();
+    }
+
+    // 만료시간(토큰 발급 시간(현재) + n시간) 생성하는 메서드
+    public Date generateTime(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(
+                ZoneId.systemDefault()
+        ).toInstant());
     }
 
     // Refresh Token 발행 메서드
@@ -76,6 +97,13 @@ public class JwtProvider {
         return TokenDto.builder()
                 .token(refreshToken)
                 .expiredAt(refreshExpiredAt)
+                .build();
+    }
+
+    public BothTokensDto getBothTokens(TokenDto accessToken, TokenDto refreshToken){
+        return BothTokensDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -104,14 +132,13 @@ public class JwtProvider {
     }
 
     // JWT 해석(만료/유효성 체크 x)
-    public Map<String, Object> decodeTokenAndThrow(String token) {
+    public Map decodeTokenAndThrow(String token) {
         String[] tokenParts = token.split("\\.");
         String decodedClaim = new String(
                 Base64.getDecoder().decode(tokenParts[1]),
                 StandardCharsets.UTF_8);
         try {
-            Map map = objectMapper.readValue(decodedClaim, Map.class);
-            return map;
+            return objectMapper.readValue(decodedClaim, Map.class);
         } catch (JsonProcessingException e) {
             throw new ResultException(TokenErrorCode.TOKEN_EXCEPTION);
         }
@@ -130,11 +157,7 @@ public class JwtProvider {
     public TokenDto reissueAccessToken(String expiredAccessToken) {
         Map<String, Object> userData = decodeTokenAndThrow(expiredAccessToken);
 
-        // access token에 담겨있던 내용 그대로 다시 생성
-        // 담긴 내용: username, type
-        // -> 변경되지 x
-        TokenDto reissuedAccessToken = generateAccessToken(userData);
-        return reissuedAccessToken;
+        return regenerateAccessToken(userData);
     }
 
     public void invalidateRefreshToken(Long memberId) {

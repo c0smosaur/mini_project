@@ -36,10 +36,10 @@ public class CartService {
 
     // 장바구니 보기
     @Transactional(readOnly = true)
-    public List<AccommodationCartResponse> getAllCartsByMemberIdAndStatus(){
+    public List<AccommodationCartResponse> getMemberCarts(){
 
         List<CartEntity> list = cartRepository.findAllByMemberIdAndStatusOrderByCreatedAtDesc(
-                memberUtil.getCurrentMember().getId(),
+                memberUtil.getCurrentMember(),
                 true);
 
         return list.stream()
@@ -61,19 +61,17 @@ public class CartService {
     public void addCart(CartRequest request) {
         validateStartAndEndDate(request.getStartDate(), request.getEndDate());
         validateCartByRoomEntity(request);
-        CartEntity entity = cartConverter.toEntity(request, memberUtil.getCurrentMember().getId());
+        CartEntity entity = cartConverter.toEntity(request, memberUtil.getCurrentMember());
 
         cartRepository.save(entity);
     }
 
     // 카트 status 수정
     @Transactional
-    public void getCartAndChangeStatus(Long cartId, Boolean cartStatus) {
+    public Optional<CartEntity> getCartAndChangeStatus(Long cartId, Boolean cartStatus) {
         Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, cartStatus);
-        if (cartEntity.isPresent()) {
-            cartEntity.get().setStatus(false);
-            cartRepository.save(cartEntity.get());
-        }
+        cartEntity.ifPresent(entity -> entity.setStatus(false));
+        return cartEntity;
     }
 
     // 날짜 유효성 검증
@@ -87,8 +85,9 @@ public class CartService {
                 throw new ResultException(CartErrorCode.WRONG_DATE);
             }
         }
-        // startDate가 endDate보다 나중 (X)
+        // startDate가 endDate보다 나중이거나 같음 (X)
         else throw new ResultException(CartErrorCode.WRONG_DATE);
+
     }
 
     // 입력된 인원 수 검증
