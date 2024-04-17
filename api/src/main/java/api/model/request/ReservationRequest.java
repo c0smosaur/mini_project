@@ -15,7 +15,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ReservationRequest {
 
-    @NotNull
+    private Long cartId;
+
     private Long memberId;
     @NotNull
     private Long roomId;

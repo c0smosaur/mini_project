@@ -4,6 +4,7 @@ import api.common.error.CartErrorCode;
 import api.common.error.GeneralErrorCode;
 import api.common.exception.ResultException;
 import api.common.util.MemberUtil;
+import api.common.util.ValidationUtil;
 import api.converter.AccommodationConverter;
 import api.converter.CartConverter;
 import api.model.request.CartRequest;
@@ -33,6 +34,7 @@ public class CartService {
     private final CartConverter cartConverter;
     private final AccommodationConverter accommodationConverter;
     private final MemberUtil memberUtil;
+    private final ValidationUtil validationUtil;
 
     // 장바구니 보기
     @Transactional(readOnly = true)
@@ -59,52 +61,29 @@ public class CartService {
     // 장바구니 담기
     @Transactional
     public void addCart(CartRequest request) {
-        validateStartAndEndDate(request.getStartDate(), request.getEndDate());
+        validationUtil.validateStartAndEndDate(request.getStartDate(), request.getEndDate());
         validateCartByRoomEntity(request);
         CartEntity entity = cartConverter.toEntity(request, memberUtil.getCurrentMember());
 
         cartRepository.save(entity);
     }
 
-    // 카트 status 수정
-    @Transactional
-    public Optional<CartEntity> getCartAndChangeStatus(Long cartId, Boolean cartStatus) {
-        Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, cartStatus);
-        cartEntity.ifPresent(entity -> entity.setStatus(false));
-        return cartEntity;
-    }
-
-    // 날짜 유효성 검증
-    public void validateStartAndEndDate(LocalDate startDate,
-                                        LocalDate endDate) {
-        // startDate가 endDate보다 전 (O)
-        if (startDate.isBefore(endDate)) {
-            LocalDate currentDate = LocalDate.now();
-            // 오늘 날짜가 startDate보다 뒤 (X)
-            if (currentDate.isAfter(startDate)) {
-                throw new ResultException(CartErrorCode.WRONG_DATE);
-            }
-        }
-        // startDate가 endDate보다 나중이거나 같음 (X)
-        else throw new ResultException(CartErrorCode.WRONG_DATE);
-
-    }
-
-    // 입력된 인원 수 검증
-    public void validateRoomCapacity(Integer capacity, RoomEntity roomEntity){
-        if (capacity > 0) {
-            if(capacity > roomEntity.getMaxCapacity()){
-                throw new ResultException(CartErrorCode.CAPACITY_REACHED);
-            }
-        } else throw new ResultException(CartErrorCode.UNACCEPTABLE_INPUT);
-    }
-
     public void validateCartByRoomEntity(CartRequest request) {
         Optional<RoomEntity> roomEntity = roomRepository.findFirstById(request.getRoomId());
         if (roomEntity.isPresent()) {
             RoomEntity entity = roomEntity.get();
-            validateRoomCapacity(request.getCapacity(), entity);
+            if (!entity.validateRoomCapacity(request.getCapacity(), entity)){
+                throw new ResultException(GeneralErrorCode.BAD_REQUEST);
+            }
         }
         else throw new ResultException(CartErrorCode.NONEXISTENT_DATA);
+    }
+
+    // 카트 status 수정
+    @Transactional
+    public Optional<CartEntity> modifyCart(Long cartId, Boolean cartStatus) {
+        Optional<CartEntity> cartEntity = cartRepository.findFirstByIdAndStatus(cartId, cartStatus);
+        cartEntity.ifPresent(entity -> entity.setStatus(false));
+        return cartEntity;
     }
 }

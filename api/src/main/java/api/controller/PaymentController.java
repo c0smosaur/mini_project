@@ -1,7 +1,6 @@
 package api.controller;
 
 import api.common.result.ResultWrapper;
-import api.model.request.CartReservationRequest;
 import api.model.request.ReservationRequest;
 import api.model.response.ReservationResponse;
 import api.service.PaymentService;
@@ -25,20 +24,23 @@ public class PaymentController {
     // 결제 후 reservation 저장
     public ResponseEntity<ResultWrapper<ReservationResponse>> addReservation(
             @Valid @RequestBody ReservationRequest request) {
+        if (request.getCartId()!=null){
+            paymentService.modifyCartStatus(request.getCartId());
+        }
         ReservationResponse response = paymentService.addReservation(request);
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(ResultWrapper.OK(response));
     }
 
-    @PostMapping("/cart-reservation")
-    public ResponseEntity<ResultWrapper<ReservationResponse>> modifyCartAndAddReservation(
-            @Valid @RequestBody CartReservationRequest request) {
-        paymentService.modifyCartStatus(request.getCartId());
-        ReservationResponse response = paymentService.addReservation(request.getReservation());
-
-        return ResponseEntity
-                .status(HttpStatus.OK.value())
-                .body(ResultWrapper.OK(response));
-    }
+//    @PostMapping("/cart-reservation")
+//    public ResponseEntity<ResultWrapper<ReservationResponse>> modifyCartAndAddReservation(
+//            @Valid @RequestBody CartReservationRequest request) {
+//
+//        ReservationResponse response = paymentService.addReservation(request.getReservation());
+//
+//        return ResponseEntity
+//                .status(HttpStatus.OK.value())
+//                .body(ResultWrapper.OK(response));
+//    }
 }

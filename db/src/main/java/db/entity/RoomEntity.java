@@ -26,4 +26,12 @@ public class RoomEntity extends BaseEntity {
 
     private Integer stock;
 
+    // 입력된 인원 수 검증
+    public Boolean validateRoomCapacity(Integer capacity, RoomEntity roomEntity){
+        if (capacity > 0) {
+            return capacity <= roomEntity.getMaxCapacity();
+        } else {
+            return false;
+        }
+    }
 }

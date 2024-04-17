@@ -42,7 +42,7 @@ public class CartController {
     @DeleteMapping("/{cartId}")
     public ResponseEntity<ResultWrapper<Void>> deleteCart(
             @PathVariable Long cartId){
-        Optional<CartEntity> cartEntity = cartService.getCartAndChangeStatus(cartId, true);
+        Optional<CartEntity> cartEntity = cartService.modifyCart(cartId, true);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT.value())
                 .body(ResultWrapper.OK(null));
