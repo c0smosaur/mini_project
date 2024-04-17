@@ -92,18 +92,4 @@ public class MemberService {
 
         return memberConverter.toResponse(memberEntity);
     }
-
-    @Transactional
-    public void memberLogout(){
-        MemberEntity memberEntity = memberRepository.findFirstByIdAndStatus(
-                memberUtil.getCurrentMember(), MemberStatus.REGISTERED
-        ).orElseThrow(() -> new ResultException(TokenErrorCode.TOKEN_EXCEPTION));
-
-        // 멤버에게 발급된 refresh token db에서 삭제
-        jwtProvider.invalidateRefreshToken(memberEntity.getId());
-
-        // 현재 로그인한 멤버 정보 지움
-        SecurityContextHolder.clearContext();
-    }
-
 }

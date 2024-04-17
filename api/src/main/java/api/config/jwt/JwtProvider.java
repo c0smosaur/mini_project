@@ -159,14 +159,4 @@ public class JwtProvider {
 
         return regenerateAccessToken(userData);
     }
-
-    public void invalidateRefreshToken(Long memberId) {
-
-        // 서버 측에 저장된 jwt를 삭제
-        Optional<RefreshTokenEntity> refreshTokenEntity = refreshTokenRepository
-                .findFirstByMemberId(memberId);
-
-        refreshTokenEntity.ifPresent(refreshTokenRepository::delete);
-    }
-
 }

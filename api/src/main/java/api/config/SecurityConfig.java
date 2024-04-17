@@ -1,6 +1,7 @@
 package api.config;
 
 import api.config.auth.JwtAuthenticationFilter;
+import api.config.jwt.CustomLogoutSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -48,7 +50,10 @@ public class SecurityConfig {
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // JWT 필터 추가
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
-                .logout()
+                // logout 설정
+                .logout(logout -> logout.logoutSuccessHandler(customLogoutSuccessHandler)
+                        .logoutUrl("api/member/logout")
+                        .logoutSuccessUrl("api/accommodations"))
         ;
 
         return httpSecurity.build();

@@ -44,12 +44,4 @@ public class MemberController {
                 .status(HttpStatus.OK.value())
                 .body(ResultWrapper.OK(response));
     }
-
-    @PostMapping("/logout")
-    public ResponseEntity<ResultWrapper<Void>> logout(){
-        memberService.memberLogout();
-        return ResponseEntity
-                .status(HttpStatus.OK.value())
-                .body(ResultWrapper.OK(null));
-    }
 }
