@@ -2,9 +2,7 @@ package db.repository;
 
 import db.entity.MemberEntity;
 import db.enums.MemberStatus;
-import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 
 import java.util.Optional;
 
