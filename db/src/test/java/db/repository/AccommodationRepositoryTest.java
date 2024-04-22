@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Objects;
@@ -32,7 +33,7 @@ class AccommodationRepositoryTest {
         // Given
 
         // When
-        Page<AccommodationEntity> accommodations = accommodationRepository.findAll(PageRequest.of(0, 20));
+        Slice<AccommodationEntity> accommodations = accommodationRepository.findAllFetchJoin(PageRequest.of(0, 20));
 
         // Then
         assertThat(accommodations).hasSize(20).map(AccommodationEntity::getAddress).allMatch(Objects::nonNull);
@@ -46,8 +47,8 @@ class AccommodationRepositoryTest {
         AccommodationCategory category2 = B02010200;
 
         // When
-        Page<AccommodationEntity> accommodations1 = accommodationRepository.findByCategory(category1, PageRequest.of(0, 20));
-        Page<AccommodationEntity> accommodations2 = accommodationRepository.findByCategory(category2, PageRequest.of(0, 20));
+        Slice<AccommodationEntity> accommodations1 = accommodationRepository.findAllByCategory(category1, PageRequest.of(0, 20));
+        Slice<AccommodationEntity> accommodations2 = accommodationRepository.findAllByCategory(category2, PageRequest.of(0, 20));
 
         // Then
         assertThat(accommodations1).hasSize(20);

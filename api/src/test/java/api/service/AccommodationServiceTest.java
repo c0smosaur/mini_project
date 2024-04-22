@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.SliceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,8 +43,8 @@ class AccommodationServiceTest {
     @Test
     void givenNothing_whenSearchingAllAccommodations_thenReturnsAllAccommodations() {
         // Given
-        given(accommodationRepository.findAll(any(Pageable.class)))
-                .willReturn(new PageImpl<>(List.of(
+        given(accommodationRepository.findAllFetchJoin(any(Pageable.class)))
+                .willReturn(new SliceImpl<>(List.of(
                         new AccommodationEntity(
                                 "가경재 [한국관광 품질인증/Korea Quality]",
                                 "경상북도 안동시 하회남촌길 69-5",
@@ -89,15 +90,15 @@ class AccommodationServiceTest {
 
         // Then
         assertThat(accommodations).hasSize(2);
-        then(accommodationRepository).should().findAll(any(Pageable.class));
+        then(accommodationRepository).should().findAllFetchJoin(any(Pageable.class));
     }
 
     @DisplayName("숙소 카테고리별 조회")
     @Test
     void givenAccommodationCategory_whenSearchingAccommodationsByCategory_thenReturnsAccommodations() {
         // Given
-        given(accommodationRepository.findByCategory(any(AccommodationCategory.class), any(Pageable.class)))
-                .willReturn(new PageImpl<>(List.of(
+        given(accommodationRepository.findAllByCategory(any(AccommodationCategory.class), any(Pageable.class)))
+                .willReturn(new SliceImpl<>(List.of(
                         new AccommodationEntity(
                                 "가락관광호텔",
                                 "서울특별시 송파구 송파대로28길 5",
@@ -143,7 +144,7 @@ class AccommodationServiceTest {
 
         // Then
         assertThat(accommodations).hasSize(2);
-        then(accommodationRepository).should().findByCategory(any(AccommodationCategory.class), any(Pageable.class));
+        then(accommodationRepository).should().findAllByCategory(any(AccommodationCategory.class), any(Pageable.class));
     }
 
     @DisplayName("숙소 개별 조회 (상세 조회)")
