@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,7 +37,7 @@ public class CartService {
 
     // 장바구니 보기
     @Transactional(readOnly = true)
-    public List<AccommodationCartResponse> getMemberCarts(){
+    public List<AccommodationCartResponse> getMemberCarts() {
 
         List<CartEntity> list = cartRepository.findAllByMemberIdAndStatusOrderByCreatedAtDesc(
                 memberUtil.getCurrentMember(),
@@ -72,11 +71,10 @@ public class CartService {
         Optional<RoomEntity> roomEntity = roomRepository.findFirstById(request.getRoomId());
         if (roomEntity.isPresent()) {
             RoomEntity entity = roomEntity.get();
-            if (!entity.validateRoomCapacity(request.getCapacity(), entity)){
+            if (!entity.validateRoomCapacity(request.getCapacity(), entity)) {
                 throw new ResultException(GeneralErrorCode.BAD_REQUEST);
             }
-        }
-        else throw new ResultException(CartErrorCode.NONEXISTENT_DATA);
+        } else throw new ResultException(CartErrorCode.NONEXISTENT_DATA);
     }
 
     // 카트 status 수정

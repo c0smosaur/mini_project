@@ -9,7 +9,6 @@ import api.model.response.AccommodationReservationResponse;
 import api.model.response.AccommodationResponse;
 import api.model.response.ReservationResponse;
 import db.entity.AccommodationEntity;
-import db.entity.MemberEntity;
 import db.entity.ReservationEntity;
 import db.entity.RoomEntity;
 import db.repository.AccommodationRepository;

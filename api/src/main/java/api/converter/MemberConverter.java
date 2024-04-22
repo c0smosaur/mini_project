@@ -1,8 +1,6 @@
 package api.converter;
 
 import api.common.annotation.Converter;
-import api.common.error.GeneralErrorCode;
-import api.common.exception.ResultException;
 import api.config.jwt.BothTokensDto;
 import api.model.request.MemberRegisterRequest;
 import api.model.response.MemberLoginResponse;
@@ -10,8 +8,6 @@ import api.model.response.MemberResponse;
 import db.entity.MemberEntity;
 import db.enums.MemberStatus;
 import db.enums.MemberType;
-
-import java.util.Optional;
 
 @Converter
 public class MemberConverter {

@@ -1,8 +1,6 @@
 package api.converter;
 
 import api.common.annotation.Converter;
-import api.common.error.GeneralErrorCode;
-import api.common.exception.ResultException;
 import api.model.request.CartRequest;
 import api.model.response.AccommodationCartResponse;
 import api.model.response.AccommodationResponse;
@@ -10,8 +8,6 @@ import api.model.response.CartResponse;
 import api.model.response.CartResponseWithPrice;
 import db.entity.CartEntity;
 import db.entity.RoomEntity;
-
-import java.util.Optional;
 
 @Converter
 public class CartConverter {

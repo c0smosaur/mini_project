@@ -9,7 +9,6 @@ import api.converter.ReservationConverter;
 import api.model.request.ReservationRequest;
 import api.model.response.ReservationResponse;
 import db.entity.CartEntity;
-import db.entity.MemberEntity;
 import db.entity.ReservationEntity;
 import db.entity.RoomEntity;
 import db.repository.CartRepository;
@@ -19,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
