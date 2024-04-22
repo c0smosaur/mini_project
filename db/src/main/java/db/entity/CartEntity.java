@@ -45,7 +45,6 @@ public class CartEntity extends BaseEntity {
     @Column(nullable = false)
     private Long totalPrice;
 
-    @Column(updatable = false)
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 }
