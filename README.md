@@ -62,4 +62,4 @@ api 문서: [swagger 링크](https://api.minibnb.shop/swagger-ui/index.html#/)
 ![](https://velog.velcdn.com/images/c0smosaur/post/a2ef1b85-8195-48b5-8f08-2da33d204d5e/image.PNG)
 
 ### 사용 스택
-![](https://velog.velcdn.com/images/c0smosaur/post/c82c5f28-aec3-4ed0-b0a2-5a73cd22a4e2/image.PNG)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbKg7Gz%2FbtsG2nll7C0%2FpQzr4h97OgGJWS3NXKReH1%2Fimg.png)
